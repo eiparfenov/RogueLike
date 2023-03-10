@@ -11,7 +11,7 @@ public class CameraMovement : MonoBehaviour
     private bool _isMoving=false;
     private float _timeFromBeginChange;
     
-    [SerializeField] private float timeNeed2Change = 1f;
+    [SerializeField] private float timeNeed2Change = 0.5f;
     
     
     // Start is called before the first frame update
@@ -28,6 +28,7 @@ public class CameraMovement : MonoBehaviour
             _timeFromBeginChange = _timeFromBeginChange + Time.deltaTime;
             var progress = Mathf.Min(1, _timeFromBeginChange / timeNeed2Change);
             transform.position = _lastCamPosition + (_nextCamPosition - _lastCamPosition) * progress;
+            transform.position = transform.position + new Vector3(0, 0, -10);
             if (progress >= 1)
             {
                 _isMoving = false;

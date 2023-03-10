@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
         HP = maxHP;
         _rb = GetComponent<Rigidbody2D>();
         _movingDirection = new Vector2(0, 0);
@@ -171,6 +173,13 @@ public class PlayerMovement : MonoBehaviour
     
     void SetPauseMovement(RoomSwitchSignal signal)
     {
-        //movabl
+        movable = false;
+        Invoke("ReturntMovable",1f);
     }
+
+    void ReturntMovable()
+    {
+        movable = true;
+    }
+   
 }
