@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -30,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
         HP = maxHP;
         _rb = GetComponent<Rigidbody2D>();
         _movingDirection = new Vector2(0, 0);
@@ -166,5 +170,12 @@ public class PlayerMovement : MonoBehaviour
     protected float GetAngleFromDirection()
     {
         return Mathf.Atan2(_movingDirection.y,_movingDirection.x)*Mathf.Rad2Deg;
+    }
+    
+    async void SetPauseMovement(RoomSwitchSignal signal)
+    {
+        movable = false;
+        await UniTask.Delay(1500);
+        movable = true;
     }
 }

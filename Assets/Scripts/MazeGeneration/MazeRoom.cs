@@ -1,8 +1,12 @@
 using System;
+using System.Linq;
 using System.Transactions;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using RoomBehaviour;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 namespace MazeGeneration
 {
@@ -31,9 +35,42 @@ namespace MazeGeneration
             Instantiate(wallToReplace, wallSpawnPosition);
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private async void OnTriggerEnter2D(Collider2D other)
         {
+            if (!other.CompareTag("Player"))
+            {
+                return;
+            }
             
+            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position});
+            
+            var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
+            foreach (var roomBehaviour in roomBehaviours)
+            {
+                roomBehaviour.OnRoomEnteredEarly(other.transform);
+            }
+            
+            await UniTask.Delay(1500);
+            foreach (var door in GetComponentsInChildren<Door>())
+            {
+                door.Close();
+            }
+            
+            foreach (var roomBehaviour in roomBehaviours)
+            {
+                roomBehaviour.OnRoomEnteredLate();
+            }
+
+            await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
+            
+            foreach (var door in GetComponentsInChildren<Door>())
+            {
+                door.Open();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
             if (!other.CompareTag("Player"))
             {
                 return;
@@ -43,7 +80,7 @@ namespace MazeGeneration
             print(roomBehaviours.Length);
             foreach (var roomBehaviour in roomBehaviours)
             {
-                roomBehaviour.OnRoomEntered(other.transform);
+                roomBehaviour.OnRoomExited();
             }
         }
     }
