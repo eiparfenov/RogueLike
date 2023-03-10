@@ -33,6 +33,7 @@ namespace Enemies
         {
             var normal = col.contacts[0].normal;
             moveDirection -= 2f * Vector3.Project(moveDirection, normal);
+            
         }
 
         private DropdownList<Vector3> PossibleDirections() => new ()

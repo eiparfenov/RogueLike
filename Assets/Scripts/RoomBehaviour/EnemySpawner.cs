@@ -17,5 +17,7 @@ namespace RoomBehaviour
         {
             Destroy(_spawnedEnemy.gameObject);
         }
+
+        public bool Finished => _isEnemyKilled;
     }
 }
