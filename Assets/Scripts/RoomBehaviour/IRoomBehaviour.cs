@@ -6,5 +6,6 @@ namespace RoomBehaviour
     {
         void OnRoomEntered(Transform player);
         void OnRoomExited();
+        bool Finished { get; }
     }
 }
