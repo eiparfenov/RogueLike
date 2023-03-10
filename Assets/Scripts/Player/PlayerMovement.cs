@@ -1,37 +1,70 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float speed;
     private Rigidbody2D _rb;
-    private Vector2 _movingDirection;
+    private int HP=3;
+    
+    private bool _readyToBlow=true;
+    
+    
+    
+    
+    [SerializeField] protected float speed;
+    
+    [SerializeField] protected int maxHP=3;//максимально здоровье
+    [SerializeField] protected float strength=1;//сила
+    [SerializeField] protected float speedOfAtack=1;//скорость атаки
+    [SerializeField] protected float invincibleDuration=1;//время неуязвимости
+    
+    
+    
+    protected Vector2 _movingDirection;
+    
+    
+    public bool movable=true;
+    public bool moving=true;
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
+        HP = maxHP;
         _rb = GetComponent<Rigidbody2D>();
         _movingDirection = new Vector2(0, 0);
     }
 
+    
+    
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        CheckSwipe();
-        if (_isTuching)
+        if (movable)
         {
-            _TouchDuration = _TouchDuration + Time.deltaTime;
+            CheckSwipe();
+            if (_isTuching)
+            {
+                _TouchDuration = _TouchDuration + Time.deltaTime;
+            }
         }
+        
       //  Debug.Log(_TouchDuration);
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
-        _rb.velocity = speed * _movingDirection;
+        if (moving)
+        {
+            _rb.velocity = speed * _movingDirection;
+        }
+        
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         _movingDirection = -_movingDirection;
     }
@@ -116,12 +149,37 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (_TouchDuration < 0.5)// длительность тапа
         {
-            Special();
+            if (_readyToBlow)
+            {
+                Special();
+            }
         }
     }
-
+    void GetReadyToBlow()
+    {
+        
+        _readyToBlow = true;
+    }
     protected virtual void Special()
     {
         //Debug.Log("Bam");
+        _readyToBlow = false;
+        Invoke( "GetReadyToBlow",speedOfAtack);
     }
+    protected float GetAngleFromDirection()
+    {
+        return Mathf.Atan2(_movingDirection.y,_movingDirection.x)*Mathf.Rad2Deg;
+    }
+    
+    void SetPauseMovement(RoomSwitchSignal signal)
+    {
+        movable = false;
+        Invoke("ReturntMovable",1f);
+    }
+
+    void ReturntMovable()
+    {
+        movable = true;
+    }
+   
 }
