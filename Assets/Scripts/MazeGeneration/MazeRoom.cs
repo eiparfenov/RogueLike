@@ -1,4 +1,7 @@
+using System;
+using System.Transactions;
 using NaughtyAttributes;
+using RoomBehaviour;
 using UnityEngine;
 
 namespace MazeGeneration
@@ -9,7 +12,6 @@ namespace MazeGeneration
         [Foldout("Walls")] [SerializeField] private Transform wallRight;
         [Foldout("Walls")] [SerializeField] private Transform wallUp;
         [Foldout("Walls")] [SerializeField] private Transform wallDown;
-        public virtual async void LaunchRoom(){}
 
         public void ReplaceWalls(
             GameObject toReplaceWallLeft,
@@ -27,6 +29,20 @@ namespace MazeGeneration
         {
             DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
             Instantiate(wallToReplace, wallSpawnPosition);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!other.CompareTag("Player"))
+            {
+                return;
+            }
+
+            var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
+            foreach (var roomBehaviour in roomBehaviours)
+            {
+                roomBehaviour.OnRoomEntered(other.transform);
+            }
         }
     }
 }
