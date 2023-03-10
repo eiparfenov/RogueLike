@@ -2,7 +2,9 @@ using System;
 using System.Transactions;
 using NaughtyAttributes;
 using RoomBehaviour;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 namespace MazeGeneration
 {
@@ -33,7 +35,21 @@ namespace MazeGeneration
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            
+            if (!other.CompareTag("Player"))
+            {
+                return;
+            }
+            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position});
+            var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
+            print(roomBehaviours.Length);
+            foreach (var roomBehaviour in roomBehaviours)
+            {
+                roomBehaviour.OnRoomEntered(other.transform);
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
             if (!other.CompareTag("Player"))
             {
                 return;
@@ -43,7 +59,7 @@ namespace MazeGeneration
             print(roomBehaviours.Length);
             foreach (var roomBehaviour in roomBehaviours)
             {
-                roomBehaviour.OnRoomEntered(other.transform);
+                roomBehaviour.OnRoomExited();
             }
         }
     }
