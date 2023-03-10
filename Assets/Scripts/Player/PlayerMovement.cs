@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Movement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed;
     private Rigidbody2D _rb;
@@ -19,7 +19,11 @@ public class Movement : MonoBehaviour
     void Update()
     {
         CheckSwipe();
-        
+        if (_isTuching)
+        {
+            _TouchDuration = _TouchDuration + Time.deltaTime;
+        }
+      //  Debug.Log(_TouchDuration);
     }
 
     private void FixedUpdate()
@@ -30,23 +34,27 @@ public class Movement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         _movingDirection = -_movingDirection;
-        Debug.Log("Coll");
     }
     
 
     private Vector2 _startTouchPosition;
     private Vector2 _endTouchPosition;
+    private float _TouchDuration;
+    private bool _isTuching=false;
 
     private void CheckSwipe()
     {
         if (Input.GetMouseButtonDown(0))
         {
             _startTouchPosition = Input.mousePosition;
+            _isTuching = true;
+            _TouchDuration = 0;
         }
         if (Input.GetMouseButtonUp(0))
         {
             _endTouchPosition = Input.mousePosition;
             ChangeDirection();
+            _isTuching=false;
         }
         
         
@@ -57,13 +65,16 @@ public class Movement : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 _startTouchPosition = touch.position;
+                _isTuching=true;
+                _TouchDuration = 0;
             }
 
             if (touch.phase == TouchPhase.Ended)
             {
                 _endTouchPosition = touch.position;
-
+                _isTuching=false;
                 ChangeDirection();
+                
             }
         }
     }
@@ -103,5 +114,14 @@ public class Movement : MonoBehaviour
                 }
             }
         }
+        else if (_TouchDuration < 0.5)// длительность тапа
+        {
+            Special();
+        }
+    }
+
+    protected virtual void Special()
+    {
+        //Debug.Log("Bam");
     }
 }
