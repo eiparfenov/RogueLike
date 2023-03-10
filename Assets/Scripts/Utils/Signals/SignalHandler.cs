@@ -6,5 +6,6 @@ namespace Utils.Signals
     {
         public Action<T> Handler { get; set; }
         public Type SignalType => typeof(T);
+        public Action<object> HandlerAbstract => (signal) =>  Handler?.Invoke((T) signal);
     }
 }

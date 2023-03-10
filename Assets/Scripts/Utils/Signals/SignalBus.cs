@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Utils.Signals
 {
@@ -43,6 +44,23 @@ namespace Utils.Signals
                 }
             }
         }
+
+        public void InvokeAbstractNotStatic<T>(T signal)
+        {
+            Invoke(signal);
+            
+            foreach (var implementedInterface in typeof(T).GetTypeInfo().ImplementedInterfaces)
+            {
+                foreach (var signalHandler in _signals)
+                {
+                    if (signalHandler.SignalType == implementedInterface)
+                    {
+                        signalHandler.HandlerAbstract?.Invoke(signal);
+                        return;
+                    }
+                }
+            }
+        }
         
         #region Singletone
         
@@ -66,6 +84,7 @@ namespace Utils.Signals
         public static void AddListener<T>(Action<T> handler) => Instance.AddListenerNotStatic(handler);
         public static void RemoveListener<T>(Action<T> handler) => Instance.RemoveListenerNotStatic(handler);
         public static void Invoke<T>(T signal) => Instance.InvokeNotStatic(signal);
+        public static void InvokeAbstract<T>(T signal) => Instance.InvokeAbstractNotStatic(signal);
 
         #endregion
     }
