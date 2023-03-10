@@ -10,12 +10,12 @@ namespace RoomBehaviour
         private BaseEnemy _spawnedEnemy;
         public void OnRoomEntered(Transform player)
         {
-            
+            _spawnedEnemy = Instantiate(enemyToSpawn, transform);
         }
 
         public void OnRoomExited()
         {
-            
+            Destroy(_spawnedEnemy.gameObject);
         }
     }
 }

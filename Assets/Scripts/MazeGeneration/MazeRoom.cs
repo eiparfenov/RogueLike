@@ -31,14 +31,16 @@ namespace MazeGeneration
             Instantiate(wallToReplace, wallSpawnPosition);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter2D(Collider2D other)
         {
+            
             if (!other.CompareTag("Player"))
             {
                 return;
             }
 
             var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
+            print(roomBehaviours.Length);
             foreach (var roomBehaviour in roomBehaviours)
             {
                 roomBehaviour.OnRoomEntered(other.transform);
