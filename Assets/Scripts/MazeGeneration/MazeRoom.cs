@@ -43,17 +43,22 @@ namespace MazeGeneration
             }
             
             SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position});
-
-            await UniTask.Delay(2000);
+            
+            var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
+            foreach (var roomBehaviour in roomBehaviours)
+            {
+                roomBehaviour.OnRoomEnteredEarly(other.transform);
+            }
+            
+            await UniTask.Delay(1500);
             foreach (var door in GetComponentsInChildren<Door>())
             {
                 door.Close();
             }
-            var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
-            print(roomBehaviours.Length);
+            
             foreach (var roomBehaviour in roomBehaviours)
             {
-                roomBehaviour.OnRoomEntered(other.transform);
+                roomBehaviour.OnRoomEnteredLate();
             }
 
             await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
