@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Signals;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -166,5 +167,10 @@ public class PlayerMovement : MonoBehaviour
     protected float GetAngleFromDirection()
     {
         return Mathf.Atan2(_movingDirection.y,_movingDirection.x)*Mathf.Rad2Deg;
+    }
+    
+    void SetPauseMovement(RoomSwitchSignal signal)
+    {
+        //movabl
     }
 }
