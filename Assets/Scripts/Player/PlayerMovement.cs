@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
@@ -171,15 +172,10 @@ public class PlayerMovement : MonoBehaviour
         return Mathf.Atan2(_movingDirection.y,_movingDirection.x)*Mathf.Rad2Deg;
     }
     
-    void SetPauseMovement(RoomSwitchSignal signal)
+    async void SetPauseMovement(RoomSwitchSignal signal)
     {
         movable = false;
-        Invoke("ReturntMovable",1f);
-    }
-
-    void ReturntMovable()
-    {
+        await UniTask.Delay(1500);
         movable = true;
     }
-   
 }

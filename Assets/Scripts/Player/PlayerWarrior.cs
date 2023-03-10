@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PlayerWarrior : PlayerMovement
 {
-    [SerializeField] private GameObject Smash;
+    [SerializeField] private WarriorBlow Smash;
 
     [SerializeField] private float blowDuration;
 
@@ -41,6 +41,7 @@ public class PlayerWarrior : PlayerMovement
             
             
             var smash = Instantiate(Smash, transform.position,transform.rotation);
+            smash.damage = strength;
             smash.transform.eulerAngles = new Vector3(0, 0, GetAngleFromDirection());
             smash.transform.parent = transform;
             smash.GetComponent<WarriorBlow>().blowDuration = blowDuration;

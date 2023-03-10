@@ -12,19 +12,17 @@ namespace Enemies
         {
             base.Awake();
             await UniTask.WaitUntil(() => Player);
-            var directionToPlayer = Player.position - transform.position;
             moveDirection = new[] {Vector3.up, Vector3.down, Vector3.right, Vector3.left}
-                .OrderByDescending(x => Vector3.Dot(directionToPlayer, x))
+                .OrderByDescending(x => Vector3.Dot(DirectionToPlayer, x))
                 .First();
         }
 
         private void Update()
         {
-            var directionToPlayer = Player.position - transform.position;
-            if (Vector3.Dot(directionToPlayer, moveDirection) < 0)
+            if (Vector3.Dot(DirectionToPlayer, moveDirection) < 0)
             {
                 var newAxis = Vector3.Cross(moveDirection, Vector3.forward);
-                moveDirection = newAxis.normalized * Mathf.Sign(Vector3.Dot(directionToPlayer, newAxis));
+                moveDirection = newAxis.normalized * Mathf.Sign(Vector3.Dot(DirectionToPlayer, newAxis));
             }
         }
     }

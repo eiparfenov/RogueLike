@@ -6,7 +6,6 @@ namespace RoomBehaviour
     public class EnemySpawner: MonoBehaviour, IRoomBehaviour
     {
         [SerializeField] private BaseEnemy enemyToSpawn;
-        private bool _isEnemyKilled;
         private BaseEnemy _spawnedEnemy;
         public void OnRoomEnteredEarly(Transform player)
         {
@@ -24,6 +23,6 @@ namespace RoomBehaviour
             Destroy(_spawnedEnemy.gameObject);
         }
 
-        public bool Finished => _isEnemyKilled;
+        public bool Finished => !_spawnedEnemy;
     }
 }

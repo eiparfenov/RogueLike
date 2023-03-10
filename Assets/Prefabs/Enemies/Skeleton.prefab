@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 7321418772529589667}
   - component: {fileID: 4538314510048464438}
   - component: {fileID: 8735146845744703346}
-  - component: {fileID: -4081325837022519412}
+  - component: {fileID: 3901849189420240918}
   m_Layer: 0
-  m_Name: StrangeStalker
-  m_TagString: Untagged
+  m_Name: Skeleton
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+  m_Color: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -124,7 +124,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &-4081325837022519412
+--- !u!114 &3901849189420240918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,8 +133,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7975167960619990520}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12c56cbc8956481985fec31fc61cb64b, type: 3}
+  m_Script: {fileID: 11500000, guid: 99df650cde5b432c81e1d0b29cfccf53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  speed: 1
+  health: 1
+  speed: 0
+  stunTime: 1
+  reloadTime: 4
+  arrowSpeed: 2
+  arrowPref: {fileID: -6676897709033916150, guid: fbf2f884034963d4bb284fc8174ba42d, type: 3}
