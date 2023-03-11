@@ -1202,7 +1202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4903129455095475250, guid: 361415531be7c4a40a84fca8ee1d8714, type: 3}
-  itemsSet: {fileID: 0}
+  itemsSet: {fileID: 11400000, guid: f7033c7772e9a4149a038d6969609c4f, type: 2}
 --- !u!1 &150806328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1708,7 +1708,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &212619244
 GameObject:
@@ -1787,7 +1787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4903129455095475250, guid: 361415531be7c4a40a84fca8ee1d8714, type: 3}
-  itemsSet: {fileID: 0}
+  itemsSet: {fileID: 11400000, guid: f7033c7772e9a4149a038d6969609c4f, type: 2}
 --- !u!1001 &226728521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5641,7 +5641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 557386823989715858, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 557386823989715858, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -13227,7 +13227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4903129455095475250, guid: 361415531be7c4a40a84fca8ee1d8714, type: 3}
-  itemsSet: {fileID: 0}
+  itemsSet: {fileID: 11400000, guid: f7033c7772e9a4149a038d6969609c4f, type: 2}
 --- !u!1 &1925400705
 GameObject:
   m_ObjectHideFlags: 0
@@ -14553,7 +14553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyToSpawn: {fileID: 4903129455095475250, guid: 361415531be7c4a40a84fca8ee1d8714, type: 3}
-  itemsSet: {fileID: 0}
+  itemsSet: {fileID: 11400000, guid: f7033c7772e9a4149a038d6969609c4f, type: 2}
 --- !u!1 &2114894254
 GameObject:
   m_ObjectHideFlags: 0

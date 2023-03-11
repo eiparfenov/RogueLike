@@ -17,6 +17,7 @@ namespace RoomBehaviour
                 return;
             _spawnedEnemy = Instantiate(enemyToSpawn, transform);
             _spawnedEnemy.Player = player;
+            _spawnedEnemy.onDie += DropItem;
         }
 
         public async void OnRoomEnteredLate()
@@ -25,10 +26,6 @@ namespace RoomBehaviour
             {
                 _spawnedEnemy.Active = true;
             }
-
-            await UniTask.WaitUntil(() => !_spawnedEnemy);
-            
-            //DropItem();
         }
 
         public void OnRoomExited()
@@ -40,10 +37,14 @@ namespace RoomBehaviour
             }
         }
 
-        private void DropItem()
+        private void DropItem(Vector3 pos)
         {
-            var item = Instantiate(itemsSet.ItemPref, transform.position, Quaternion.identity);
-            item.Item = itemsSet.GetItem();
+            if(!itemsSet) return;
+            var baseItem = itemsSet.GetItem();
+            if(baseItem == null) return;
+            var item = Instantiate(itemsSet.ItemPref, pos, Quaternion.identity);
+            item.Item = baseItem;
+            _spawnedEnemy.onDie -= DropItem;
         }
 
         public bool Finished => !_spawnedEnemy;

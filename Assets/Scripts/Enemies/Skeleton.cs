@@ -33,5 +33,7 @@ namespace Enemies
                 await UniTask.Delay((int) (1000 * reloadTime));
             }
         }
+
+        protected override bool isFlyingEnemy => false;
     }
 }

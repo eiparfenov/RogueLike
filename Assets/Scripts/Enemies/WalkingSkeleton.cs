@@ -42,6 +42,8 @@ namespace Enemies
             moveDirection = secDir;
         }
 
+        protected override bool isFlyingEnemy => false;
+
         private async void Reload()
         {
             _reloaded = false;

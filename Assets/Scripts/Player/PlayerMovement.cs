@@ -1,13 +1,14 @@
 using Cysharp.Threading.Tasks;
 using Interfaces;
 using Items;
+using RoomBehaviour.Traps;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
 
 namespace Player
 {
-    public class PlayerMovement : MonoBehaviour, IDamageable
+    public class PlayerMovement : MonoBehaviour, IDamageable, IPitTrapInteracting, ISlowTrapInteracting
     {
         [SerializeField] protected PlayerStats playerStats;
         private Rigidbody2D _rb;
@@ -44,7 +45,7 @@ namespace Player
         {
             if (moving)
             {
-                _rb.velocity = playerStats.Speed * movingDirection;
+                _rb.velocity = playerStats.Speed * movingDirection * _trapMoveK;
             }
         }
         protected virtual void OnCollisionEnter2D(Collision2D collision)
@@ -61,6 +62,7 @@ namespace Player
         private Vector2 _endTouchPosition;
         private float _touchDuration;
         private bool _isTouching=false;
+        private float _trapMoveK = 1f;
 
         private void CheckSwipe()
         {
@@ -167,7 +169,7 @@ namespace Player
         #region DamageAble
         private bool _isInvincible; // if player is invincible after getting damage 
 
-        public void Damage(int damage)
+        public async void Damage(int damage)
         {
             if(_isInvincible)
                 return;
@@ -200,6 +202,37 @@ namespace Player
         {
             playerStats.AddItem(item);
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
+        }
+
+        #endregion
+
+        #region Traps
+
+        public async void PitTrap(PitTrap trap)
+        {
+            Damage(trap.Damage);
+            _trapMoveK = 0f;
+            transform.position = trap.Center;
+            await UniTask.Delay((int) (1000 * trap.PlayerTimeInside));
+            transform.position = trap.SpawnPoint;
+            _trapMoveK = 1f;
+        }
+
+        public void SlowTrap(bool entered, SlowTrap trap)
+        {
+            if (entered)
+            {
+                _trapMoveK = trap.SpeedMult;
+            }
+            else
+            {
+                _trapMoveK = 1f;
+            }
+        }
+
+        public void NeedlesTrap(Needles trap)
+        {
+            Damage(trap.damage);
         }
 
         #endregion

@@ -13,6 +13,8 @@ namespace Enemies
 
         private Rigidbody2D _rb;
 
+        protected override bool isFlyingEnemy => true;
+
         protected override void Awake()
         {
             base.Awake();
