@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
@@ -17,6 +19,7 @@ namespace Player
         void Start()
         {
             SignalBus.AddListener<RoomSwitchSignal>(StartMoveCamera);
+            SignalBus.AddListener<LevelFinishSignal>(OnLevelFinish);
             _lastCamPosition = transform.position;
         }
 
@@ -48,6 +51,22 @@ namespace Player
             _nextCamPosition = signal.RoomPosition;
             _isMoving = true;
             _timeFromBeginChange = 0;
+        }
+
+        private async void OnLevelFinish(LevelFinishSignal signal)
+        {
+            _isMoving = false;
+            await UniTask.Delay((int)(signal.Duration * 1000));
+            _lastCamPosition = Vector3.back * 10;
+            transform.position = Vector3.back * 10;
+            await UniTask.Delay((int)(signal.Duration * 1000));
+            _isMoving = true;
+        }
+
+        private void OnDestroy()
+        {
+            SignalBus.RemoveListener<RoomSwitchSignal>(StartMoveCamera);
+            SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinish);
         }
     }
 }

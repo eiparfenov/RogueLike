@@ -53,7 +53,6 @@ namespace Player
         public void RecalculateStats()
         {
             damage = startDamage;
-            health = startHealth;
             maxHealth = startMaxHealth;
             invincibleTime = startInvincibleTime;
             speed = startSpeed;
