@@ -102,6 +102,8 @@ namespace MazeGeneration
                     SelectWall(mazeSpawnerTheme[currentLevel].WallsUp, mazeSpawnerTheme[currentLevel].DoorUp, cell.UpWall),
                     SelectWall(mazeSpawnerTheme[currentLevel].WallsDown, mazeSpawnerTheme[currentLevel].DoorDown, cell.DownWall)
                 );
+
+                createdRoom.cellData = cell;
                 Debug.Log(cell);
                 cellsToAdd.Remove(cell);
             }

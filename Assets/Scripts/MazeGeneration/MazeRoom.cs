@@ -14,6 +14,7 @@ namespace MazeGeneration
         [Foldout("Walls")] [SerializeField] protected Transform wallRight;
         [Foldout("Walls")] [SerializeField] protected Transform wallUp;
         [Foldout("Walls")] [SerializeField] protected Transform wallDown;
+        public MazeCell cellData;
 
         public void ReplaceWalls(
             GameObject toReplaceWallLeft,
@@ -40,7 +41,7 @@ namespace MazeGeneration
                 return;
             }
             
-            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position});
+            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position, CellData = cellData});
             
             var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
             foreach (var roomBehaviour in roomBehaviours)
@@ -51,23 +52,29 @@ namespace MazeGeneration
             await UniTask.Delay(1500);
             if(!this)
                 return;
-            foreach (var door in GetComponentsInChildren<Door>())
-            {
-                door.Close();
-            }
+            
             
             foreach (var roomBehaviour in roomBehaviours)
             {
                 roomBehaviour.OnRoomEnteredLate();
             }
 
-            await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
-            if (!this)
-                return;
-            
-            foreach (var door in GetComponentsInChildren<Door>())
+            if (!roomBehaviours.All(x => x.Finished))
             {
-                door.Open();
+                SignalBus.Invoke(new FightSignal(){InProgress = true});
+                foreach (var door in GetComponentsInChildren<Door>())
+                {
+                    door.Close();
+                }
+                await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
+                if (!this)
+                    return;
+
+                foreach (var door in GetComponentsInChildren<Door>())
+                {
+                    door.Open();
+                }
+                SignalBus.Invoke(new FightSignal(){InProgress = false});
             }
         }
 
