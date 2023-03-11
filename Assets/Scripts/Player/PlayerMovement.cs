@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Interfaces;
 using Signals;
@@ -34,12 +31,20 @@ public class PlayerMovement : MonoBehaviour, IDamageable
 
     private bool _isInvincible; // if player is invincible after getting damage 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected virtual async void Start()
     {
         SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
         HP = maxHP;
         _rb = GetComponent<Rigidbody2D>();
         _movingDirection = new Vector2(0, 0);
+        
+        // Тут мне нужно сообщить индикатору здоровья начальное состояние игрока
+        // поскольку подписка на сигнал о изменении хп игрока происходит в start я не могу быть уверенным, что индикатор
+        // уже подпишится на сигнал к моменту вызова. Поэтому я пропускаю кадр при помощи UniTask.Yield(PlayerLoopTiming.Update)
+        // Да, пока у нас нет DI приходится танцевать с костылями ((
+        
+        await UniTask.Yield(PlayerLoopTiming.Update);
+        SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = maxHP, Health = HP});
     }
 
     
@@ -190,9 +195,11 @@ public class PlayerMovement : MonoBehaviour, IDamageable
             return;
         HP -= damage;
         print($"Player got {damage} of damage");
+        SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = maxHP, Health = HP});
         if (HP <= 0)
         {
             print("Player should die here.  ((");
+            SignalBus.Invoke(new PlayerDeadSignal());
         }
         ProcessInvincible();
     }

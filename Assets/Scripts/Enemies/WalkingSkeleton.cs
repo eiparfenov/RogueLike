@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -32,6 +31,7 @@ namespace Enemies
                 );
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = mainDir.normalized;
+                arrow.damage = damage;
                 Reload();
             }
             

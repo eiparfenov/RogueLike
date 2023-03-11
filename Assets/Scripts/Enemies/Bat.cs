@@ -1,10 +1,7 @@
-using System;
 using System.Linq;
-using System.Numerics;
 using NaughtyAttributes;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Enemies
@@ -27,6 +24,7 @@ namespace Enemies
         
         private void OnCollisionEnter2D(Collision2D col)
         {
+            TryDamagePlayer(col.collider);
             var normal = col.contacts[0].normal;
             var moveDir = moveDirection - Vector3.Project(moveDirection, normal) + (Vector3)normal;
             Debug.DrawRay(col.contacts[0].point, normal, Color.red);
