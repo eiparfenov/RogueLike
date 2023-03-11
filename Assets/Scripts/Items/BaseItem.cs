@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Items
 {
-    [CreateAssetMenu(fileName = "Item", menuName = "Custom/Items/Simple")]
     public abstract class BaseItem: ScriptableObject
     {
         [field: SerializeField]
@@ -11,6 +10,7 @@ namespace Items
         public Sprite Image { get; private set; } 
         public abstract bool FallowPlayer { get; }
 
+        public bool wasDropped;
         #region ChangeStats
         [field: SerializeField] public bool ChangesBaseStats { get; private set; }
         

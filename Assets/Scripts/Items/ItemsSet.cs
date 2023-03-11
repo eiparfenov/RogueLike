@@ -14,15 +14,22 @@ namespace Items
 
         public BaseItem GetItem()
         {
-            var allChances = items.Select(x => x.Chance).Sum();
+            var possibleItems = items.Where(x => x.Item == null || !x.Item.wasDropped || x.Item.FallowPlayer).ToArray();
+
+            var allChances = possibleItems.Select(x => x.Chance).Sum();
             var chance = Random.value * allChances;
             var i = 0;
-            while (chance > items[i].Chance)
+            while (chance > possibleItems[i].Chance)
             {
-                chance -= items[i].Chance;
+                chance -= possibleItems[i].Chance;
                 i++;
             }
-            return items[i].Item;
+
+            if (possibleItems[i].Item != null)
+            {
+                possibleItems[i].Item.wasDropped = true;
+            }
+            return possibleItems[i].Item;
         }
     }
 

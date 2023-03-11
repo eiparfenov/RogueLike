@@ -2,7 +2,9 @@ using System;
 using Cysharp.Threading.Tasks;
 using Interfaces;
 using RoomBehaviour.Traps;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 namespace Enemies
 {
@@ -85,6 +87,7 @@ namespace Enemies
         
         protected virtual async UniTask Die()
         {
+            SignalBus.Invoke(new EnemyDieSignal());
             await UniTask.Delay((int)(1000 * .5f));
             if (gameObject) Destroy(gameObject);
         }

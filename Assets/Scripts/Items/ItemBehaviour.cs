@@ -6,6 +6,7 @@ namespace Items
 {
     public class ItemBehaviour: MonoBehaviour
     {
+        [SerializeField] private BaseItem startItem; // Test
         private Transform _player;
         private BaseItem _item;
         private Rigidbody2D _rb;
@@ -47,6 +48,14 @@ namespace Items
             var directionToPlayer = _player.position - transform.position;
             directionToPlayer = directionToPlayer.normalized;
             _rb.velocity = directionToPlayer * _speed;
+        }
+
+        private void Start()
+        {
+            if (startItem)
+            {
+                Item = startItem;
+            }
         }
     }
 }
