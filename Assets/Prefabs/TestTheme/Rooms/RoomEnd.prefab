@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.g
+      value: 0.575867
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.r
+      value: 0.51891243
+      objectReference: {fileID: 0}
     - target: {fileID: 3414159832708296933, guid: b46362c5c948abb4285022867e2a9556, type: 3}
       propertyPath: m_Name
       value: RoomEnd

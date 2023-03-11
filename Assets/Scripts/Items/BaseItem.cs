@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace Items
         [field: SerializeField]
         [field: Required("Вы забыли установить картинку.")]
         public Sprite Image { get; private set; } 
+        
+        [field: SerializeField]
+        public String Description { get; private set; } 
         public abstract bool FallowPlayer { get; }
 
         public bool wasDropped;
