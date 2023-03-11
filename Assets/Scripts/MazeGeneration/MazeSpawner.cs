@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace MazeGeneration
 {
@@ -11,6 +13,12 @@ namespace MazeGeneration
         [SerializeField] private Transform mazeParent;
         [SerializeField] private Vector3 roomSize;
         [Expandable][SerializeField] private MazeSpawnerTheme mazeSpawnerTheme;
+
+
+        private void Start()
+        {
+            CreateMaze();
+        }
 
         [Button]
         private void CreateMaze()
