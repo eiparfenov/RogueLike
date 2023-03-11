@@ -16,6 +16,7 @@ public class CameraMovement : MonoBehaviour
     void Start()
     {
         SignalBus.AddListener<RoomSwitchSignal>(StartMoveCamera);
+        _lastCamPosition = transform.position;
     }
 
     // Update is called once per frame
@@ -30,6 +31,7 @@ public class CameraMovement : MonoBehaviour
             if (progress >= 1)
             {
                 _isMoving = false;
+                _lastCamPosition = transform.position;
             }
         }
     }
