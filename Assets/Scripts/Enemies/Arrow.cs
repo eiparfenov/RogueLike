@@ -1,4 +1,5 @@
 using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Enemies
@@ -7,6 +8,7 @@ namespace Enemies
     {
         public Vector3 moveDirection;
         public float speed;
+        public int damage;
         private Rigidbody2D _rb;
 
         private void Awake()
@@ -24,6 +26,11 @@ namespace Enemies
             if (other.CompareTag("Player"))
             {
                 Destroy(gameObject);
+                var damageable = other.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.Damage(damage);
+                }
             }
 
             if (other.CompareTag("Wall"))

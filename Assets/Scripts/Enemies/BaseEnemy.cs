@@ -8,7 +8,8 @@ namespace Enemies
     
     public abstract class BaseEnemy : MonoBehaviour, IDamageable
     {
-        [SerializeField] protected float health;
+        [SerializeField] protected int damage;
+        [SerializeField] protected int health;
         [SerializeField] protected float speed;
         [SerializeField] protected float stunTime;
         protected Vector3 moveDirection;
@@ -48,17 +49,19 @@ namespace Enemies
             rb = GetComponent<Rigidbody2D>();
         }
 
-        public async void Damage(float damage)
+        public async void Damage(int damage)
         {
-            Debug.Log($"{name} {damage}");
             Active = false;
             health -= damage;
-            if (health < 0)
+            Debug.Log($"{name} got {damage} for player, it's current health = {health}");
+            if (health <= 0)
             {
                 await Die();
                 return;
             }
             await UniTask.Delay((int)(1000 * stunTime));
+            if (!this)
+                return;
             Active = true;
         }
 
@@ -66,6 +69,18 @@ namespace Enemies
         {
             await UniTask.Delay((int)(1000 * .5f));
             Destroy(gameObject);
+        }
+
+        protected virtual void TryDamagePlayer(Collider2D col)
+        {
+            if(!col.CompareTag("Player") || !Active)
+                return;
+
+            var damageable = col.GetComponent<IDamageable>();
+            if (damageable != null)
+            {
+                damageable.Damage(damage);
+            }
         }
     }
 }

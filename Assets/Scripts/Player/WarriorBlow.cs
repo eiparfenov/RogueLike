@@ -8,7 +8,7 @@ public class WarriorBlow : MonoBehaviour
 {
     // Start is called before the first frame update
     public float blowDuration;
-    public float damage = 3;
+    public int damage;
     void Start()
     {
         Invoke("DestroySelf", blowDuration);

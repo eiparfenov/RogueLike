@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Interfaces;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDamageable
 {
     private Rigidbody2D _rb;
     private int HP=3;
@@ -19,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] protected float speed;
     
     [SerializeField] protected int maxHP=3;//максимально здоровье
-    [SerializeField] protected float strength=1;//сила
+    [SerializeField] protected int strength=1;//сила
     [SerializeField] protected float speedOfAtack=1;//скорость атаки
     [SerializeField] protected float invincibleDuration=1;//время неуязвимости
     
@@ -30,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     
     public bool movable=true;
     public bool moving=true;
+
+    private bool _isInvincible; // if player is invincible after getting damage 
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -176,6 +179,33 @@ public class PlayerMovement : MonoBehaviour
     {
         movable = false;
         await UniTask.Delay(1500);
+        if(!this)
+            return;
         movable = true;
+    }
+
+    public void Damage(int damage)
+    {
+        if(_isInvincible)
+            return;
+        HP -= damage;
+        print($"Player got {damage} of damage");
+        if (HP <= 0)
+        {
+            print("Player should die here.  ((");
+        }
+        ProcessInvincible();
+    }
+
+    // this method makes player invincible, waits invincible time and makes player damageable again
+    // in future some other instructions can be added
+    private async void ProcessInvincible()
+    {
+        if(_isInvincible)
+            return;
+
+        _isInvincible = true;
+        await UniTask.Delay((int) (1000 * invincibleDuration));
+        _isInvincible = false;
     }
 }

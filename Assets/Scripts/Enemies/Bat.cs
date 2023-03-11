@@ -24,9 +24,7 @@ namespace Enemies
                 moveDirection = (Vector3) PossibleDirections().OrderBy(x => Random.value).First().Value;
             }
         }
-
         
-
         private void OnCollisionEnter2D(Collision2D col)
         {
             var normal = col.contacts[0].normal;

@@ -51,6 +51,8 @@ namespace MazeGeneration
             }
             
             await UniTask.Delay(1500);
+            if(!this)
+                return;
             foreach (var door in GetComponentsInChildren<Door>())
             {
                 door.Close();
@@ -62,6 +64,8 @@ namespace MazeGeneration
             }
 
             await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
+            if (!this)
+                return;
             
             foreach (var door in GetComponentsInChildren<Door>())
             {

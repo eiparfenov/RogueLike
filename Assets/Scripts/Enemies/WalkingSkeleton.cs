@@ -46,6 +46,8 @@ namespace Enemies
         {
             _reloaded = false;
             await UniTask.Delay((int) (reloadTime * 1000));
+            if (!this)
+                return;
             _reloaded = true;
         }
     }

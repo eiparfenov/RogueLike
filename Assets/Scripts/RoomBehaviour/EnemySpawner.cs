@@ -20,7 +20,10 @@ namespace RoomBehaviour
 
         public void OnRoomExited()
         {
-            Destroy(_spawnedEnemy.gameObject);
+            if (_spawnedEnemy)
+            {
+                Destroy(_spawnedEnemy.gameObject);
+            }
         }
 
         public bool Finished => !_spawnedEnemy;
