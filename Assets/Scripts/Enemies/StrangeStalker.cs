@@ -29,5 +29,7 @@ namespace Enemies
         {
             TryDamagePlayer(col.collider);
         }
+
+        protected override bool isFlyingEnemy => false;
     }
 }

@@ -9,7 +9,7 @@ namespace Items
         [field: SerializeField]
         [field: Required("Вы забыли установить картинку.")]
         public Sprite Image { get; private set; } 
-        public abstract bool IsCoinOrHeal { get; }
+        public abstract bool FallowPlayer { get; }
 
         #region ChangeStats
         [field: SerializeField] public bool ChangesBaseStats { get; private set; }
