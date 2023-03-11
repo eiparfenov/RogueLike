@@ -9,7 +9,7 @@ namespace Player
 
         [SerializeField] private float blowDuration;
 
-    
+        [SerializeField] private Transform handPivot;
     
     
         // Start is called before the first frame update
@@ -46,6 +46,21 @@ namespace Player
                 smash.transform.position = smash.transform.position + new Vector3(0, 0, 1);
             }
 
+        }
+
+        protected override void NewDirection(Vector2 direction)
+        {
+            base.NewDirection(direction);
+            handPivot.eulerAngles = new Vector3(0, 0, (transform.localScale.x>0?GetAngleFromDirection()+180 :(GetAngleFromDirection()==0?0:180-GetAngleFromDirection())));
+            if (direction.y<0)
+            {
+                handPivot.transform.position = new Vector3(transform.position.x, transform.position.y, -0.5f);
+            }
+            else
+            {
+                handPivot.transform.position = new Vector3(transform.position.x, transform.position.y, 0.5f);
+
+            }
         }
     }
 }

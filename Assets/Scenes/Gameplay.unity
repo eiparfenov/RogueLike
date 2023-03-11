@@ -5417,6 +5417,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.83
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99144495
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.13052596
+      objectReference: {fileID: 0}
+    - target: {fileID: 2136108028139259891, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5494181574296563625, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7279992385797195606, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e7dd7dc8bc9506548ac228c67fa93829, type: 3}
     - target: {fileID: 9219646674672069622, guid: 828763c16961e8c4eaca5436ba271eb9, type: 3}
       propertyPath: m_Color.a
       value: 1
