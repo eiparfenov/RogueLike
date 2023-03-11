@@ -10,10 +10,10 @@ namespace MazeGeneration
 {
     public class MazeRoom: MonoBehaviour
     {
-        [Foldout("Walls")] [SerializeField] private Transform wallLeft;
-        [Foldout("Walls")] [SerializeField] private Transform wallRight;
-        [Foldout("Walls")] [SerializeField] private Transform wallUp;
-        [Foldout("Walls")] [SerializeField] private Transform wallDown;
+        [Foldout("Walls")] [SerializeField] protected Transform wallLeft;
+        [Foldout("Walls")] [SerializeField] protected Transform wallRight;
+        [Foldout("Walls")] [SerializeField] protected Transform wallUp;
+        [Foldout("Walls")] [SerializeField] protected Transform wallDown;
 
         public void ReplaceWalls(
             GameObject toReplaceWallLeft,
@@ -27,7 +27,7 @@ namespace MazeGeneration
             SwapWall(wallUp, toReplaceWallUp);
         }
 
-        private void SwapWall(Transform wallSpawnPosition, GameObject wallToReplace)
+        protected void SwapWall(Transform wallSpawnPosition, GameObject wallToReplace)
         {
             DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
             Instantiate(wallToReplace, wallSpawnPosition);

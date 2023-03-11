@@ -6,12 +6,12 @@ namespace RoomBehaviour
     {
         [SerializeField] private GameObject doorFrame;
 
-        public async void Close()
+        public virtual async void Close()
         {
             doorFrame.SetActive(true);
         }
         
-        public async void Open()
+        public virtual async void Open()
         {
             doorFrame.SetActive(false);
         }
