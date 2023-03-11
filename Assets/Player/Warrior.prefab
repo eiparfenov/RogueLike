@@ -96,12 +96,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats:
-    startMaxHealth: 0
-    startHealth: 0
-    startInvincibleTime: 0
-    startSpeed: 0
-    startDamage: 0
-    startAttackSpeed: 0
+    startMaxHealth: 3
+    startHealth: 3
+    startInvincibleTime: 1
+    startSpeed: 1.2
+    startDamage: 1
+    startAttackSpeed: 0.8
     startReclining: 0
   movable: 1
   moving: 1

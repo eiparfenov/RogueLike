@@ -182,6 +182,16 @@ namespace Player
             }
             ProcessInvincible();
         }
+        
+        public void Damage(int damage,Vector2 directionReclining)
+        {
+            if(_isInvincible)
+                return;
+            Damage(damage);
+            RecliningPlayer(directionReclining,damage);
+        }
+        
+        
 
         // this method makes player invincible, waits invincible time and makes player damageable again
         // in future some other instructions can be added
@@ -196,6 +206,19 @@ namespace Player
             _isInvincible = false;
             _anim.SetBool("Invincible",_isInvincible);
         }
+
+
+
+        public async void RecliningPlayer(Vector2 direction, float strength)
+        {
+            var lastDirection = movingDirection;
+            movable = false;
+            movingDirection = direction.normalized * strength * playerStats.Reclining;
+            await UniTask.Delay((int) (1000 * 0.5));
+            movable = true;
+            movingDirection = lastDirection;
+        }
+        
         #endregion
         #region Items
 

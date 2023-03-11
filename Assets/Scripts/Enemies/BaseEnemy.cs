@@ -61,6 +61,10 @@ namespace Enemies
                 return;
             Active = true;
         }
+        public void Damage(int damage,Vector2 directionReclining)
+        {
+            Damage(damage);
+        }
 
         protected virtual async UniTask Die()
         {
@@ -76,7 +80,7 @@ namespace Enemies
             var damageable = col.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.Damage(enemyStats.Damage);
+                damageable.Damage(enemyStats.Damage,transform.position-col.transform.position);
             }
         }
     }
