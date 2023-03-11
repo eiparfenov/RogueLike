@@ -151,7 +151,7 @@ namespace Player
         private async void SetPauseMovement(RoomSwitchSignal signal)
         {
             movable = false;
-            await UniTask.Delay(1500);
+            await UniTask.Delay(500);
             if(!this)
                 return;
             movable = true;
