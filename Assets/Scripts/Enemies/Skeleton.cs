@@ -29,7 +29,7 @@ namespace Enemies
                 );
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = DirectionToPlayer;
-                arrow.damage = damage;
+                arrow.damage = enemyStats.Damage;
                 await UniTask.Delay((int) (1000 * reloadTime));
             }
         }

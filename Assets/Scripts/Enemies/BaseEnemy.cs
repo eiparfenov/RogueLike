@@ -7,10 +7,8 @@ namespace Enemies
     
     public abstract class BaseEnemy : MonoBehaviour, IDamageable
     {
-        [SerializeField] protected int damage;
-        [SerializeField] protected int health;
-        [SerializeField] protected float speed;
-        [SerializeField] protected float stunTime;
+        
+        [SerializeField] protected EnemyStats enemyStats;
         protected Vector3 moveDirection;
         protected Rigidbody2D rb;
         public Transform Player { get; set; }
@@ -35,7 +33,7 @@ namespace Enemies
             Debug.DrawRay(transform.position, moveDirection, Color.black);
             if (Active)
             {
-                rb.velocity = moveDirection * speed;
+                rb.velocity = moveDirection * enemyStats.Speed;
             }
             else
             {
@@ -51,14 +49,14 @@ namespace Enemies
         public async void Damage(int damage)
         {
             Active = false;
-            health -= damage;
-            Debug.Log($"{name} got {damage} for player, it's current health = {health}");
-            if (health <= 0)
+            enemyStats.Health -= damage;
+            Debug.Log($"{name} got {damage} for player, it's current health = {enemyStats.Health}");
+            if (enemyStats.Health <= 0)
             {
                 await Die();
                 return;
             }
-            await UniTask.Delay((int)(1000 * stunTime));
+            await UniTask.Delay((int)(1000 * enemyStats.StunTime));
             if (!this)
                 return;
             Active = true;
@@ -67,7 +65,7 @@ namespace Enemies
         protected virtual async UniTask Die()
         {
             await UniTask.Delay((int)(1000 * .5f));
-            Destroy(gameObject);
+            if (gameObject) Destroy(gameObject);
         }
 
         protected virtual void TryDamagePlayer(Collider2D col)
@@ -78,7 +76,7 @@ namespace Enemies
             var damageable = col.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.Damage(damage);
+                damageable.Damage(enemyStats.Damage);
             }
         }
     }

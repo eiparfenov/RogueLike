@@ -28,7 +28,7 @@ namespace RoomBehaviour
 
             await UniTask.WaitUntil(() => !_spawnedEnemy);
             
-            DropItem();
+            //DropItem();
         }
 
         public void OnRoomExited()

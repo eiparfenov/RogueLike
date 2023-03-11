@@ -136,10 +136,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe7b8aae0b841fc8047cb6f1bc07d40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
-  health: 2
-  speed: 0.5
-  stunTime: 2
+  enemyStats:
+    damage: 1
+    health: 1
+    speed: 0.3
+    stunTime: 0.5
+    reboundValue: 1
   reloadTime: 5
   arrowSpeed: 1
   arrowPref: {fileID: -6676897709033916150, guid: fbf2f884034963d4bb284fc8174ba42d, type: 3}
