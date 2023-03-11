@@ -52,13 +52,14 @@ namespace Enemies
             rb = GetComponent<Rigidbody2D>();
         }
 
-        public async void Damage(int damage)
+        public async void Damage(float damage)
         {
             Active = false;
             enemyStats.Health -= damage;
             Debug.Log($"{name} got {damage} for player, it's current health = {enemyStats.Health}");
             if (enemyStats.Health <= 0)
             {
+                GetComponent<Collider2D>().enabled = false;
                 await Die();
                 onDie?.Invoke(transform.position);
                 return;
@@ -69,7 +70,7 @@ namespace Enemies
             Active = true;
         }
         
-        public void Damage(int damage,Vector2 directionReclining)
+        public void Damage(float damage,Vector2 directionReclining)
         {
             Damage(damage);
             RecliningEnemy(directionReclining, damage);

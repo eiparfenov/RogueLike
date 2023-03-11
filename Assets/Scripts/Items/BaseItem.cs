@@ -21,7 +21,7 @@ namespace Items
         [field: Foldout("Damage")]
         [field: ShowIf(nameof(ChangesBaseStats))]
         [field: SerializeField] 
-        public int DamageAdditional { get; private set; } = 0;
+        public float DamageAdditional { get; private set; } = 0;
         [field: Foldout("Damage")]
         [field: ShowIf(nameof(ChangesBaseStats))]
         [field: SerializeField] 
@@ -30,7 +30,7 @@ namespace Items
         [field: Foldout("InvincibleTime")]
         [field: ShowIf(nameof(ChangesBaseStats))]
         [field: SerializeField] 
-        public int InvincibleTimeAdditional { get; private set; } = 0;
+        public float InvincibleTimeAdditional { get; private set; } = 0;
         
         [field: Foldout("InvincibleTime")]
         [field: ShowIf(nameof(ChangesBaseStats))]
@@ -59,7 +59,7 @@ namespace Items
         [field: Foldout("AttackRate")]
         [field: ShowIf(nameof(ChangesBaseStats))]
         [field: SerializeField] 
-        public int AttackRateAdditional { get; private set; } = 0;
+        public float AttackRateAdditional { get; private set; } = 0;
         
         [field: Foldout("AttackRate")]
         [field: ShowIf(nameof(ChangesBaseStats))]
@@ -69,7 +69,7 @@ namespace Items
         [field: Foldout("Reclining")]
         [field: ShowIf(nameof(ChangesBaseStats))]
         [field: SerializeField] 
-        public int RecliningAdditional { get; private set; } = 0;
+        public float RecliningAdditional { get; private set; } = 0;
         
         [field: Foldout("Reclining")]
         [field: ShowIf(nameof(ChangesBaseStats))]
@@ -82,9 +82,9 @@ namespace Items
             speed += SpeedAdditional;
         }
 
-        public virtual void ChangeDamage(ref int damage)
+        public virtual void ChangeDamage(ref float damage)
         {
-            damage = (int) (damage * DamageMultiplier);
+            damage = (float) (damage * DamageMultiplier);
             damage += DamageAdditional;
         }
 

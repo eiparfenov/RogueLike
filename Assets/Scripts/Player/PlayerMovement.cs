@@ -175,6 +175,7 @@ namespace Player
             if(!this)
                 return;
             movable = true;
+            //movingDirection=Vector2.zero;
         }
         #endregion
         #region Attack
@@ -190,11 +191,11 @@ namespace Player
         #region DamageAble
         private bool _isInvincible; // if player is invincible after getting damage 
 
-        public async void Damage(int damage)
+        public async void Damage(float damage)
         {
             if(_isInvincible)
                 return;
-            playerStats.Health -= damage;
+            playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
             if (playerStats.Health <= 0)
@@ -205,7 +206,7 @@ namespace Player
             ProcessInvincible();
         }
         
-        public void Damage(int damage,Vector2 directionReclining)
+        public void Damage(float damage,Vector2 directionReclining)
         {
             if(_isInvincible)
                 return;
