@@ -5,6 +5,6 @@ namespace Items
     [CreateAssetMenu(fileName = "Item", menuName = "Custom/Items/Simple")]
     public class SimpleItem: BaseItem
     {
-        public override bool IsCoinOrHeal => false;
+        public override bool FallowPlayer => false;
     }
 }
