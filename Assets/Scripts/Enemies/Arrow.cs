@@ -24,11 +24,12 @@ namespace Enemies
         {
             if (other.CompareTag("Player"))
             {
+                var direction = moveDirection;
                 Destroy(gameObject);
                 var damageable = other.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
-                    damageable.Damage(damage);
+                    damageable.Damage(damage,direction);
                 }
             }
 

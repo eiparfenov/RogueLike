@@ -28,7 +28,7 @@ namespace Player
             var damageable = col.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.Damage(damage);
+                damageable.Damage(damage,col.transform.position-transform.position);
             }
         }
 

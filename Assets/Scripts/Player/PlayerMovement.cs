@@ -12,7 +12,7 @@ namespace Player
     {
         [SerializeField] protected PlayerStats playerStats;
         private Rigidbody2D _rb;
-
+        private Animator _anim;
 
         protected virtual async void Start()
         {
@@ -20,6 +20,7 @@ namespace Player
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             playerStats.Health = playerStats.MaxHealth;
             _rb = GetComponent<Rigidbody2D>();
+            _anim = GetComponent<Animator>();
             movingDirection = new Vector2(0, 0);
         
             // Тут мне нужно сообщить индикатору здоровья начальное состояние игрока
@@ -150,7 +151,7 @@ namespace Player
         private async void SetPauseMovement(RoomSwitchSignal signal)
         {
             movable = false;
-            await UniTask.Delay(1500);
+            await UniTask.Delay(500);
             if(!this)
                 return;
             movable = true;
@@ -183,6 +184,16 @@ namespace Player
             }
             ProcessInvincible();
         }
+        
+        public void Damage(int damage,Vector2 directionReclining)
+        {
+            if(_isInvincible)
+                return;
+            Damage(damage);
+            RecliningPlayer(directionReclining,damage);
+        }
+        
+        
 
         // this method makes player invincible, waits invincible time and makes player damageable again
         // in future some other instructions can be added
@@ -190,11 +201,26 @@ namespace Player
         {
             if(_isInvincible)
                 return;
-
+            
             _isInvincible = true;
+            _anim.SetBool("Invincible",_isInvincible);
             await UniTask.Delay((int) (1000 * playerStats.InvincibleTime));
             _isInvincible = false;
+            _anim.SetBool("Invincible",_isInvincible);
         }
+
+
+
+        public async void RecliningPlayer(Vector2 direction, float strength)
+        {
+            var lastDirection = movingDirection;
+            movable = false;
+            movingDirection = direction.normalized * strength * playerStats.Reclining;
+            await UniTask.Delay((int) (1000 * 0.5));
+            movable = true;
+            movingDirection = lastDirection;
+        }
+        
         #endregion
         #region Items
 
