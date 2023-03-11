@@ -1,11 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Interfaces;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IDamageable
 {
     private Rigidbody2D _rb;
     private int HP=3;
@@ -18,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] protected float speed;
     
     [SerializeField] protected int maxHP=3;//максимально здоровье
-    [SerializeField] protected float strength=1;//сила
+    [SerializeField] protected int strength=1;//сила
     [SerializeField] protected float speedOfAtack=1;//скорость атаки
     [SerializeField] protected float invincibleDuration=1;//время неуязвимости
     
@@ -29,13 +28,23 @@ public class PlayerMovement : MonoBehaviour
     
     public bool movable=true;
     public bool moving=true;
+
+    private bool _isInvincible; // if player is invincible after getting damage 
     // Start is called before the first frame update
-    protected virtual void Start()
+    protected virtual async void Start()
     {
         SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
         HP = maxHP;
         _rb = GetComponent<Rigidbody2D>();
         _movingDirection = new Vector2(0, 0);
+        
+        // Тут мне нужно сообщить индикатору здоровья начальное состояние игрока
+        // поскольку подписка на сигнал о изменении хп игрока происходит в start я не могу быть уверенным, что индикатор
+        // уже подпишится на сигнал к моменту вызова. Поэтому я пропускаю кадр при помощи UniTask.Yield(PlayerLoopTiming.Update)
+        // Да, пока у нас нет DI приходится танцевать с костылями ((
+        
+        await UniTask.Yield(PlayerLoopTiming.Update);
+        SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = maxHP, Health = HP});
     }
 
     
@@ -171,15 +180,39 @@ public class PlayerMovement : MonoBehaviour
         return Mathf.Atan2(_movingDirection.y,_movingDirection.x)*Mathf.Rad2Deg;
     }
     
-    void SetPauseMovement(RoomSwitchSignal signal)
+    async void SetPauseMovement(RoomSwitchSignal signal)
     {
         movable = false;
-        Invoke("ReturntMovable",1f);
-    }
-
-    void ReturntMovable()
-    {
+        await UniTask.Delay(1500);
+        if(!this)
+            return;
         movable = true;
     }
-   
+
+    public void Damage(int damage)
+    {
+        if(_isInvincible)
+            return;
+        HP -= damage;
+        print($"Player got {damage} of damage");
+        SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = maxHP, Health = HP});
+        if (HP <= 0)
+        {
+            print("Player should die here.  ((");
+            SignalBus.Invoke(new PlayerDeadSignal());
+        }
+        ProcessInvincible();
+    }
+
+    // this method makes player invincible, waits invincible time and makes player damageable again
+    // in future some other instructions can be added
+    private async void ProcessInvincible()
+    {
+        if(_isInvincible)
+            return;
+
+        _isInvincible = true;
+        await UniTask.Delay((int) (1000 * invincibleDuration));
+        _isInvincible = false;
+    }
 }

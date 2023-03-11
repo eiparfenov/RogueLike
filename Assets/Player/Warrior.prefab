@@ -95,9 +95,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1.3
-  Smash: {fileID: 616381040316411526, guid: 1059a20484ccd1a4fa9d8ea678322637, type: 3}
+  maxHP: 3
+  strength: 1
+  speedOfAtack: 1
+  invincibleDuration: 1
+  movable: 1
+  moving: 1
+  Smash: {fileID: 616381040316411524, guid: 1059a20484ccd1a4fa9d8ea678322637, type: 3}
   blowDuration: 0.2
-  blowRecharge: 0.5
 --- !u!1 &9221910981934153451
 GameObject:
   m_ObjectHideFlags: 0

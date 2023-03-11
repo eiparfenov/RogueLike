@@ -1,12 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerWarrior : PlayerMovement
 {
-    [SerializeField] private GameObject Smash;
+    [SerializeField] private WarriorBlow Smash;
 
     [SerializeField] private float blowDuration;
 
@@ -37,22 +34,15 @@ public class PlayerWarrior : PlayerMovement
     protected override void Special()
     {
         base.Special();
-        
-            
-            
-            var smash = Instantiate(Smash, transform.position,transform.rotation);
-            smash.transform.eulerAngles = new Vector3(0, 0, GetAngleFromDirection());
-            smash.transform.parent = transform;
-            smash.GetComponent<WarriorBlow>().blowDuration = blowDuration;
-            if (Math.Abs(smash.transform.eulerAngles.z - 90) < 0.5)
-            {
-                smash.transform.position = smash.transform.position + new Vector3(0, 0, 1);
-            }
-            
-        
-}
+        var smash = Instantiate(Smash, transform.position,transform.rotation);
+        smash.damage = strength;
+        smash.transform.eulerAngles = new Vector3(0, 0, GetAngleFromDirection());
+        smash.transform.parent = transform;
+        smash.blowDuration = blowDuration;
+        if (Math.Abs(smash.transform.eulerAngles.z - 90) < 0.5)
+        {
+            smash.transform.position = smash.transform.position + new Vector3(0, 0, 1);
+        }
 
-    
-    
-    
+    }
 }

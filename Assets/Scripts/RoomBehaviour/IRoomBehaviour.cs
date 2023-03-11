@@ -4,7 +4,8 @@ namespace RoomBehaviour
 {
     public interface IRoomBehaviour
     {
-        void OnRoomEntered(Transform player);
+        void OnRoomEnteredEarly(Transform player);
+        void OnRoomEnteredLate();
         void OnRoomExited();
         bool Finished { get; }
     }
