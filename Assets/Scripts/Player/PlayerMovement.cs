@@ -11,7 +11,7 @@ namespace Player
     {
         [SerializeField] protected PlayerStats playerStats;
         private Rigidbody2D _rb;
-
+        private Animator _anim;
 
         protected virtual async void Start()
         {
@@ -19,6 +19,7 @@ namespace Player
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             playerStats.Health = playerStats.MaxHealth;
             _rb = GetComponent<Rigidbody2D>();
+            _anim = GetComponent<Animator>();
             movingDirection = new Vector2(0, 0);
         
             // Тут мне нужно сообщить индикатору здоровья начальное состояние игрока
@@ -188,10 +189,12 @@ namespace Player
         {
             if(_isInvincible)
                 return;
-
+            
             _isInvincible = true;
+            _anim.SetBool("Invincible",_isInvincible);
             await UniTask.Delay((int) (1000 * playerStats.InvincibleTime));
             _isInvincible = false;
+            _anim.SetBool("Invincible",_isInvincible);
         }
         #endregion
         #region Items
