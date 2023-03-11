@@ -16,10 +16,11 @@ namespace MazeGeneration
             await UniTask.Yield(PlayerLoopTiming.Update);
             await UniTask.Yield(PlayerLoopTiming.Update);
             await UniTask.Yield(PlayerLoopTiming.Update);
+            if (!this) return;
             if (wallDown.GetComponentInChildren<Door>()) SwapWall(wallUp, exitWallUp);
-            if (wallUp.GetComponentInChildren<Door>()) SwapWall(wallDown, exitWallDown);
-            if (wallRight.GetComponentInChildren<Door>()) SwapWall(wallLeft, exitWallLeft);
-            if (wallLeft.GetComponentInChildren<Door>()) SwapWall(wallRight, exitWallRight);
+            else if (wallUp.GetComponentInChildren<Door>()) SwapWall(wallDown, exitWallDown);
+            else if (wallRight.GetComponentInChildren<Door>()) SwapWall(wallLeft, exitWallLeft);
+            else if (wallLeft.GetComponentInChildren<Door>()) SwapWall(wallRight, exitWallRight);
             
         }
     }

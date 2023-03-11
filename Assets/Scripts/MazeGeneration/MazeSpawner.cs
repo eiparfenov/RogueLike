@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 using Random = UnityEngine.Random;
 
 namespace MazeGeneration
@@ -12,12 +15,15 @@ namespace MazeGeneration
 
         [SerializeField] private Transform mazeParent;
         [SerializeField] private Vector3 roomSize;
-        [Expandable][SerializeField] private MazeSpawnerTheme mazeSpawnerTheme;
-
+        
+        [Expandable][SerializeField] private MazeSpawnerTheme[] mazeSpawnerTheme;
+        [SerializeField] private int currentLevel;
+        
 
         private void Start()
         {
             CreateMaze();
+            SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
         }
 
         [Button]
@@ -29,7 +35,7 @@ namespace MazeGeneration
             }
             mazeParent = new GameObject("Maze parent").transform;
 
-            var mazeRooms = mazeSpawnerTheme.MazeRooms
+            var mazeRooms = mazeSpawnerTheme[currentLevel].MazeRooms
                 .Select(x => new MazeRoomContent(){count = x.count, mazeRoom = x.mazeRoom, spawnPriority = x.spawnPriority})
                 .ToArray();
             
@@ -91,10 +97,10 @@ namespace MazeGeneration
                     mazeParent);
                 
                 createdRoom.ReplaceWalls(
-                    SelectWall(mazeSpawnerTheme.WallsLeft, mazeSpawnerTheme.DoorLeft, cell.LeftWall),
-                    SelectWall(mazeSpawnerTheme.WallsRight, mazeSpawnerTheme.DoorRight, cell.RightWall),
-                    SelectWall(mazeSpawnerTheme.WallsUp, mazeSpawnerTheme.DoorUp, cell.UpWall),
-                    SelectWall(mazeSpawnerTheme.WallsDown, mazeSpawnerTheme.DoorDown, cell.DownWall)
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsLeft, mazeSpawnerTheme[currentLevel].DoorLeft, cell.LeftWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsRight, mazeSpawnerTheme[currentLevel].DoorRight, cell.RightWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsUp, mazeSpawnerTheme[currentLevel].DoorUp, cell.UpWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsDown, mazeSpawnerTheme[currentLevel].DoorDown, cell.DownWall)
                 );
                 Debug.Log(cell);
                 cellsToAdd.Remove(cell);
@@ -115,6 +121,23 @@ namespace MazeGeneration
             res += cell.RightWall ? 1 : 0;
             res += cell.UpWall ? 1 : 0;
             return res == 1;
+        }
+
+        private async void OnLevelFinished(LevelFinishSignal signal)
+        {
+            await UniTask.Delay((int) (signal.Duration * 1000));
+            currentLevel++;
+            if (currentLevel >= mazeSpawnerTheme.Length)
+            {
+                return;
+            }
+            CreateMaze();
+        }
+
+        private void OnDestroy()
+        {
+            SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinished);
+
         }
     }
 }

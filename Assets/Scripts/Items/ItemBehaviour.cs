@@ -1,5 +1,6 @@
 using System;
 using Player;
+using TMPro;
 using UnityEngine;
 
 namespace Items
@@ -7,6 +8,7 @@ namespace Items
     public class ItemBehaviour: MonoBehaviour
     {
         [SerializeField] private BaseItem startItem; // Test
+        [SerializeField] private TextMeshProUGUI description;
         private Transform _player;
         private BaseItem _item;
         private Rigidbody2D _rb;
@@ -17,6 +19,7 @@ namespace Items
             set
             {
                 _item = value;
+                description.text = _item.Description;
                 if (_item.FallowPlayer)
                 {
                     _rb = gameObject.AddComponent<Rigidbody2D>();

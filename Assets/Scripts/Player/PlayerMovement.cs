@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Interfaces;
 using Items;
@@ -18,6 +19,7 @@ namespace Player
         {
             playerStats.RecalculateStats();
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
+            SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
             playerStats.Health = playerStats.MaxHealth;
             _rb = GetComponent<Rigidbody2D>();
             _anim = GetComponent<Animator>();
@@ -52,6 +54,24 @@ namespace Player
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             movingDirection = -movingDirection;
+        }
+
+        private async void OnLevelFinished(LevelFinishSignal signal)
+        {
+            movable = false;
+            await UniTask.Delay((int)(signal.Duration * 1000));
+            if(!this)
+                return;
+            movable = true;
+            
+            transform.position = Vector3.zero;
+            movingDirection = Vector2.zero;
+        }
+
+        private void OnDestroy()
+        {
+            SignalBus.RemoveListener<RoomSwitchSignal>(SetPauseMovement);
+            SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinished);
         }
 
         #region MovementProcessing
