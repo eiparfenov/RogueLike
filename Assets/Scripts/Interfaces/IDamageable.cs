@@ -4,7 +4,7 @@ namespace Interfaces
 {
     public interface IDamageable
     {
-        void Damage(int damage);
-        void Damage(int damage, Vector2 directionReclining);
+        void Damage(float damage);
+        void Damage(float damage, Vector2 directionReclining);
     }
 }

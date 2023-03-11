@@ -7,7 +7,7 @@ namespace Player
     {
         // Start is called before the first frame update
         public float blowDuration;
-        public int damage;
+        public float damage;
         void Start()
         {
             Invoke("DestroySelf", blowDuration);

@@ -22,7 +22,7 @@ namespace Player
         private int health;
         private float invincibleTime;
         private float speed;
-        private int damage;
+        private float damage;
         private float attackSpeed;
         private float reclining;
         
@@ -32,7 +32,7 @@ namespace Player
         public int MaxHealth => maxHealth;
         public float InvincibleTime => invincibleTime;
         public float Speed => speed;
-        public int Damage => damage;
+        public float Damage => damage;
         public float AttackSpeed => attackSpeed;
         public float Reclining => reclining;
 
