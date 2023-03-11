@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using RoomBehaviour;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
@@ -27,7 +28,7 @@ namespace MazeGeneration
         }
 
         [Button]
-        private void CreateMaze()
+        private async void CreateMaze()
         {
             if (mazeParent)
             {
@@ -102,8 +103,17 @@ namespace MazeGeneration
                     SelectWall(mazeSpawnerTheme[currentLevel].WallsUp, mazeSpawnerTheme[currentLevel].DoorUp, cell.UpWall),
                     SelectWall(mazeSpawnerTheme[currentLevel].WallsDown, mazeSpawnerTheme[currentLevel].DoorDown, cell.DownWall)
                 );
+
+                createdRoom.cellData = cell;
                 Debug.Log(cell);
                 cellsToAdd.Remove(cell);
+
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                var spawners = FindObjectsOfType<EnemySpawner>();
+                foreach (var enemySpawner in spawners)
+                {
+                    enemySpawner.DefaultItemsSet = mazeSpawnerTheme[currentLevel].ItemsSet;
+                }
             }
         }
 

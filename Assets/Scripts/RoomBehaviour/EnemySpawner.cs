@@ -9,6 +9,16 @@ namespace RoomBehaviour
     {
         [SerializeField] private BaseEnemy enemyToSpawn;
         [SerializeField] private ItemsSet itemsSet;
+
+        public ItemsSet DefaultItemsSet
+        {
+            set
+            {
+                if (itemsSet == null)
+                    itemsSet = value;
+            }
+        }
+        
         private BaseEnemy _spawnedEnemy;
         private bool _isEnemyKilled;
         public void OnRoomEnteredEarly(Transform player)
