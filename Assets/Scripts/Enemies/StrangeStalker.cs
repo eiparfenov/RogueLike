@@ -20,9 +20,21 @@ namespace Enemies
         {
             if (Vector3.Dot(DirectionToPlayer, moveDirection) < 0)
             {
-                var newAxis = Vector3.Cross(moveDirection, Vector3.forward);
-                moveDirection = newAxis.normalized * Mathf.Sign(Vector3.Dot(DirectionToPlayer, newAxis));
+                ChangeDirection2Player();
+                
             }
+        }
+
+        private async void ChangeDirection2Player()
+        {
+            
+            
+            var newAxis = Vector3.Cross(moveDirection, Vector3.forward);
+            var nextDirection = newAxis.normalized * Mathf.Sign(Vector3.Dot(DirectionToPlayer, newAxis));
+            moveDirection = Vector2.zero;
+            await UniTask.Delay((int) (1000 * enemyStats.TurnRate));
+            
+            moveDirection = nextDirection;
         }
 
         private void OnCollisionEnter2D(Collision2D col)
