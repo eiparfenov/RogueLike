@@ -37,7 +37,7 @@ namespace Enemies
             }
             else
             {
-                rb.velocity = Vector2.zero;
+                rb.velocity = RecliningDirection;
             }
         }
 
@@ -61,11 +61,23 @@ namespace Enemies
                 return;
             Active = true;
         }
+        
         public void Damage(int damage,Vector2 directionReclining)
         {
             Damage(damage);
+            RecliningEnemy(directionReclining, damage);
         }
-
+        private Vector2 RecliningDirection;
+        
+        public async void RecliningEnemy(Vector2 direction, float strength)
+        {
+            
+          
+            RecliningDirection = direction.normalized * strength * enemyStats.RecliningValue;
+            await UniTask.Delay((int) (1000 * 0.5));
+            RecliningDirection = Vector2.zero;
+        }
+        
         protected virtual async UniTask Die()
         {
             await UniTask.Delay((int)(1000 * .5f));

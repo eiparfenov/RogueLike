@@ -141,4 +141,4 @@ MonoBehaviour:
     health: 2
     speed: 0.5
     stunTime: 0.5
-    reboundValue: 1
+    recliningValue: 3

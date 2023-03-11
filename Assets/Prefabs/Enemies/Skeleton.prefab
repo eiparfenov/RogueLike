@@ -141,7 +141,7 @@ MonoBehaviour:
     health: 2
     speed: 1
     stunTime: 0.5
-    reboundValue: 1
+    recliningValue: 3
   reloadTime: 4
   arrowSpeed: 2
   arrowPref: {fileID: -6676897709033916150, guid: fbf2f884034963d4bb284fc8174ba42d, type: 3}
