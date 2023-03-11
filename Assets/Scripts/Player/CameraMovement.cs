@@ -17,7 +17,7 @@ namespace Player
         void Start()
         {
             SignalBus.AddListener<RoomSwitchSignal>(StartMoveCamera);
-        _lastCamPosition = transform.position;
+            _lastCamPosition = transform.position;
         }
 
         // Update is called once per frame
@@ -25,9 +25,22 @@ namespace Player
         {
             if (_isMoving)
             {
-                _isMoving = false;
+                
+                    _timeFromBeginChange = _timeFromBeginChange + Time.deltaTime;
+                    var progress = Mathf.Min(1, _timeFromBeginChange / timeNeed2Change);
+                    transform.position = _lastCamPosition + (_nextCamPosition - _lastCamPosition) * progress;
+                    transform.position = transform.position + new Vector3(0, 0, -10);
+                    if (progress >= 1)
+                    {
+                        _isMoving = false;
+                        _lastCamPosition = transform.position;
+                    }
+                    
             }
+
+                
         }
+        
 
         void StartMoveCamera(RoomSwitchSignal signal)
         {

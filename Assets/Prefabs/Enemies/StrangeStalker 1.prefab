@@ -136,7 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12c56cbc8956481985fec31fc61cb64b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  health: 2
-  speed: 0.5
-  stunTime: 2
+  enemyStats:
+    damage: 1
+    health: 2
+    speed: 0.5
+    stunTime: 0.5
+    reboundValue: 1

@@ -31,7 +31,7 @@ namespace Enemies
                 );
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = mainDir.normalized;
-                arrow.damage = damage;
+                arrow.damage = enemyStats.Damage;
                 Reload();
             }
             
