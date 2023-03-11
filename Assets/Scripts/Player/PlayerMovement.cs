@@ -175,6 +175,7 @@ namespace Player
             if(!this)
                 return;
             movable = true;
+            //movingDirection=Vector2.zero;
         }
         #endregion
         #region Attack
