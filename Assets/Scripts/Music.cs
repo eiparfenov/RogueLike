@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Signals;
+using Utils.Signals;
 using UnityEngine;
 
 public class Music : MonoBehaviour
@@ -14,16 +16,24 @@ public class Music : MonoBehaviour
         main.volume = 1;
         fight.volume = 0;
         embient.volume = 0.3f;
+        SignalBus.AddListener<FightSignal>(SetFight);
         
     }
 
-    private void StartFight()
+    private void SetFight(FightSignal signal)
     {
-        fight.volume = 0.3f;
+        if (signal.InProgress)
+        {
+            fight.volume = 0.5f;
+        }
+        else
+        {
+            fight.volume = 0;
+        }
     }
-    private void StopFight()
+
+    private void OnDestroy()
     {
-        fight.volume = 0;
+        SignalBus.RemoveListener<FightSignal>(SetFight);
     }
-    
 }
