@@ -74,9 +74,10 @@ namespace MazeGeneration
                 }
 
                 roomToAdd.count -= 1;
+                var mazeRoom = roomToAdd.mazeRoom.OrderBy(x => Random.value).First();
 
                 var createdRoom = Instantiate(
-                    roomToAdd.mazeRoom,
+                    mazeRoom,
                     Vector3.up * roomSize.y * cell.Position.y + Vector3.right * roomSize.x * cell.Position.x,
                     Quaternion.identity,
                     mazeParent);
