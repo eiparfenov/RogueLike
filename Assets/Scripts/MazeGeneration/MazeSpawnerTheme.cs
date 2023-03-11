@@ -21,7 +21,7 @@ namespace MazeGeneration
     [Serializable]
     public class MazeRoomContent
     {
-        public MazeRoom mazeRoom;
+        public MazeRoom[] mazeRoom;
         public int count;
         public SpawnPriority spawnPriority;
     }
