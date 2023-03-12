@@ -5,6 +5,7 @@ using RoomBehaviour.Traps;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
+using Random = UnityEngine.Random;
 
 namespace Enemies
 {
@@ -12,9 +13,11 @@ namespace Enemies
     public abstract class BaseEnemy : MonoBehaviour, IDamageable, IPitTrapInteracting, ISlowTrapInteracting
     {
         [SerializeField] protected EnemyStats enemyStats;
+        [SerializeField] protected AudioClip[]enemyAudio;
         protected abstract bool isFlyingEnemy { get; }
         protected Vector3 moveDirection;
         protected Rigidbody2D rb;
+        protected AudioSource audio;
         public Transform Player { get; set; }
         public bool Active { get; set; }
         private float _trapMovK = 1f;
@@ -49,17 +52,26 @@ namespace Enemies
 
         protected virtual void Awake()
         {
+            audio = GetComponent<AudioSource>();
             rb = GetComponent<Rigidbody2D>();
         }
 
         public async void Damage(float damage)
         {
+            
+            if (enemyAudio.Length > 0)
+            {
+                var num = Random.Range(0, enemyAudio.Length);
+                audio.clip = enemyAudio[num];
+                audio.Play();
+            }
+            
             Active = false;
             enemyStats.Health -= damage;
             Debug.Log($"{name} got {damage} for player, it's current health = {enemyStats.Health}");
             if (enemyStats.Health <= 0)
             {
-                GetComponent<Collider2D>().enabled = false;
+                Death();
                 await Die();
                 onDie?.Invoke(transform.position);
                 return;
@@ -68,6 +80,11 @@ namespace Enemies
             if (!this)
                 return;
             Active = true;
+        }
+        
+        protected virtual void Death()
+        {
+            GetComponent<Collider2D>().enabled = false;
         }
         
         public void Damage(float damage,Vector2 directionReclining)

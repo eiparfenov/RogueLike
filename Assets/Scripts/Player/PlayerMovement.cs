@@ -12,11 +12,13 @@ namespace Player
     public class PlayerMovement : MonoBehaviour, IDamageable, IPitTrapInteracting, ISlowTrapInteracting
     {
         [SerializeField] protected PlayerStats playerStats;
+        [SerializeField] protected PlayerSound playerSound;
         private Rigidbody2D _rb;
         private Animator _anim;
-
+        [SerializeField]  private AudioSource[] audioSource;
         protected virtual async void Start()
         {
+            
             playerStats.RecalculateStats();
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
@@ -187,6 +189,11 @@ namespace Player
                 }
             }
         }
+
+        public void Step()
+        {
+            playerSound.PlayStep(_trapMoveK<0.9,audioSource[0]);
+        }
         
         
         protected float GetAngleFromDirection()
@@ -207,6 +214,7 @@ namespace Player
         private bool _readyToBlow=true;
         protected virtual async void Special()
         {
+            playerSound.PlayBlow(audioSource[1]);
             //Debug.Log("Bam");
             _readyToBlow = false;
             _anim.SetTrigger("Atake");
@@ -222,6 +230,7 @@ namespace Player
             if(_isInvincible)
                 return;
             _anim.SetTrigger("Damage");
+            playerSound.PlayGetDamage(audioSource[0]);
             playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
@@ -274,6 +283,7 @@ namespace Player
 
         public void TakeItem(BaseItem item)
         {
+            playerSound.PlayCoin(audioSource[2]);
             playerStats.AddItem(item);
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
         }
