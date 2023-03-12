@@ -58,6 +58,34 @@ namespace Player
             NewDirection(-movingDirection );
         }
 
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.tag == "Wall")
+            {
+                var vecDirection = _roomPosition - (Vector2) transform.position;
+                vecDirection = vecDirection.normalized;
+                if (Mathf.Abs(vecDirection.x / vecDirection.y) < 3.5 / 8)
+                {
+                    NewDirection(new Vector2(0, vecDirection.y > 0 ? 1 : -1));
+                }
+                else
+                {
+                    NewDirection(new Vector2( (vecDirection.x > 0 ? 1 : -1),0));
+                }
+                movable = false;
+            } 
+            
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.tag == "Wall")
+            {
+                
+                movable = true;
+            } 
+        }
+
         private async void OnLevelFinished(LevelFinishSignal signal)
         {
             movable = false;
@@ -200,8 +228,11 @@ namespace Player
         {
             return Mathf.Atan2(movingDirection.y,movingDirection.x)*Mathf.Rad2Deg;
         }
+
+        private Vector2 _roomPosition;
         private async void SetPauseMovement(RoomSwitchSignal signal)
         {
+            _roomPosition=signal.RoomPosition;
             movable = false;
             await UniTask.Delay(500);
             if(!this)
@@ -258,12 +289,15 @@ namespace Player
         {
             if(_isInvincible)
                 return;
-            
+            var col = GetComponent<Collider2D>() ;
+            col.isTrigger = true;
             _isInvincible = true;
             _anim.SetBool("Invincible",_isInvincible);
             await UniTask.Delay((int) (1000 * playerStats.InvincibleTime));
             _isInvincible = false;
             _anim.SetBool("Invincible",_isInvincible);
+            col.isTrigger = false;
+            movable = true;
         }
 
 
