@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6010444676776088914}
   m_Layer: 0
   m_Name: Warrior
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
     startDamage: 1
     startAttackSpeed: 0.8
     startReclining: 0
+    startCoins: 0
   movable: 1
   moving: 1
   Smash: {fileID: 616381040316411524, guid: 1059a20484ccd1a4fa9d8ea678322637, type: 3}

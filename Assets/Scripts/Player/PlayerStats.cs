@@ -94,6 +94,11 @@ namespace Player
             SpecialItems.Refresh(_items);
         }
 
+        public override string ToString()
+        {
+            return $"{startAttackSpeed}";
+        }
+
         public class Special
         {
             private float vampirismChance;
