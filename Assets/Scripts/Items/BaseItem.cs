@@ -15,6 +15,9 @@ namespace Items
         public abstract bool FallowPlayer { get; }
 
         public bool wasDropped;
+        public bool opened;
+        public int priceInMenu;
+        public int stars;
         #region ChangeStats
         [field: SerializeField] public bool ChangesBaseStats { get; private set; }
         
