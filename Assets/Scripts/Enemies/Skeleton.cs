@@ -1,6 +1,4 @@
-using System;
 using Cysharp.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -31,8 +29,11 @@ namespace Enemies
                 );
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = DirectionToPlayer;
+                arrow.damage = enemyStats.Damage;
                 await UniTask.Delay((int) (1000 * reloadTime));
             }
         }
+
+        protected override bool isFlyingEnemy => false;
     }
 }

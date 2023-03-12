@@ -1,6 +1,4 @@
-using System;
 using System.Linq;
-using System.Transactions;
 using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
 using RoomBehaviour;
@@ -12,10 +10,11 @@ namespace MazeGeneration
 {
     public class MazeRoom: MonoBehaviour
     {
-        [Foldout("Walls")] [SerializeField] private Transform wallLeft;
-        [Foldout("Walls")] [SerializeField] private Transform wallRight;
-        [Foldout("Walls")] [SerializeField] private Transform wallUp;
-        [Foldout("Walls")] [SerializeField] private Transform wallDown;
+        [Foldout("Walls")] [SerializeField] protected Transform wallLeft;
+        [Foldout("Walls")] [SerializeField] protected Transform wallRight;
+        [Foldout("Walls")] [SerializeField] protected Transform wallUp;
+        [Foldout("Walls")] [SerializeField] protected Transform wallDown;
+        public MazeCell cellData;
 
         public void ReplaceWalls(
             GameObject toReplaceWallLeft,
@@ -29,9 +28,10 @@ namespace MazeGeneration
             SwapWall(wallUp, toReplaceWallUp);
         }
 
-        private void SwapWall(Transform wallSpawnPosition, GameObject wallToReplace)
+        protected void SwapWall(Transform wallSpawnPosition, GameObject wallToReplace)
         {
-            DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
+            if(wallSpawnPosition.childCount != 0)
+                DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
             Instantiate(wallToReplace, wallSpawnPosition);
         }
 
@@ -42,7 +42,7 @@ namespace MazeGeneration
                 return;
             }
             
-            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position});
+            SignalBus.Invoke(new RoomSwitchSignal(){RoomPosition = transform.position, CellData = cellData});
             
             var roomBehaviours = GetComponentsInChildren<IRoomBehaviour>();
             foreach (var roomBehaviour in roomBehaviours)
@@ -51,21 +51,31 @@ namespace MazeGeneration
             }
             
             await UniTask.Delay(1500);
-            foreach (var door in GetComponentsInChildren<Door>())
-            {
-                door.Close();
-            }
+            if(!this)
+                return;
+            
             
             foreach (var roomBehaviour in roomBehaviours)
             {
                 roomBehaviour.OnRoomEnteredLate();
             }
 
-            await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
-            
-            foreach (var door in GetComponentsInChildren<Door>())
+            if (!roomBehaviours.All(x => x.Finished))
             {
-                door.Open();
+                SignalBus.Invoke(new FightSignal(){InProgress = true});
+                foreach (var door in GetComponentsInChildren<Door>())
+                {
+                    door.Close();
+                }
+                await UniTask.WaitUntil(() => roomBehaviours.All(x => x.Finished));
+                if (!this)
+                    return;
+
+                foreach (var door in GetComponentsInChildren<Door>())
+                {
+                    door.Open();
+                }
+                SignalBus.Invoke(new FightSignal(){InProgress = false});
             }
         }
 

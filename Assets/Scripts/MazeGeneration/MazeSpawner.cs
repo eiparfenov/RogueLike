@@ -1,7 +1,12 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using NaughtyAttributes;
+using RoomBehaviour;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
+using Random = UnityEngine.Random;
 
 namespace MazeGeneration
 {
@@ -11,10 +16,19 @@ namespace MazeGeneration
 
         [SerializeField] private Transform mazeParent;
         [SerializeField] private Vector3 roomSize;
-        [Expandable][SerializeField] private MazeSpawnerTheme mazeSpawnerTheme;
+        
+        [Expandable][SerializeField] private MazeSpawnerTheme[] mazeSpawnerTheme;
+        [SerializeField] private int currentLevel;
+        
+
+        private void Start()
+        {
+            CreateMaze();
+            SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
+        }
 
         [Button]
-        private void CreateMaze()
+        private async void CreateMaze()
         {
             if (mazeParent)
             {
@@ -22,7 +36,7 @@ namespace MazeGeneration
             }
             mazeParent = new GameObject("Maze parent").transform;
 
-            var mazeRooms = mazeSpawnerTheme.MazeRooms
+            var mazeRooms = mazeSpawnerTheme[currentLevel].MazeRooms
                 .Select(x => new MazeRoomContent(){count = x.count, mazeRoom = x.mazeRoom, spawnPriority = x.spawnPriority})
                 .ToArray();
             
@@ -75,21 +89,31 @@ namespace MazeGeneration
                 }
 
                 roomToAdd.count -= 1;
+                var mazeRoom = roomToAdd.mazeRoom.OrderBy(x => Random.value).First();
 
                 var createdRoom = Instantiate(
-                    roomToAdd.mazeRoom,
+                    mazeRoom,
                     Vector3.up * roomSize.y * cell.Position.y + Vector3.right * roomSize.x * cell.Position.x,
                     Quaternion.identity,
                     mazeParent);
                 
                 createdRoom.ReplaceWalls(
-                    SelectWall(mazeSpawnerTheme.WallsLeft, mazeSpawnerTheme.DoorLeft, cell.LeftWall),
-                    SelectWall(mazeSpawnerTheme.WallsRight, mazeSpawnerTheme.DoorRight, cell.RightWall),
-                    SelectWall(mazeSpawnerTheme.WallsUp, mazeSpawnerTheme.DoorUp, cell.UpWall),
-                    SelectWall(mazeSpawnerTheme.WallsDown, mazeSpawnerTheme.DoorDown, cell.DownWall)
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsLeft, mazeSpawnerTheme[currentLevel].DoorLeft, cell.LeftWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsRight, mazeSpawnerTheme[currentLevel].DoorRight, cell.RightWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsUp, mazeSpawnerTheme[currentLevel].DoorUp, cell.UpWall),
+                    SelectWall(mazeSpawnerTheme[currentLevel].WallsDown, mazeSpawnerTheme[currentLevel].DoorDown, cell.DownWall)
                 );
+
+                createdRoom.cellData = cell;
                 Debug.Log(cell);
                 cellsToAdd.Remove(cell);
+
+                await UniTask.Yield(PlayerLoopTiming.Update);
+                var spawners = FindObjectsOfType<EnemySpawner>();
+                foreach (var enemySpawner in spawners)
+                {
+                    enemySpawner.DefaultItemsSet = mazeSpawnerTheme[currentLevel].ItemsSet;
+                }
             }
         }
 
@@ -107,6 +131,24 @@ namespace MazeGeneration
             res += cell.RightWall ? 1 : 0;
             res += cell.UpWall ? 1 : 0;
             return res == 1;
+        }
+
+        private async void OnLevelFinished(LevelFinishSignal signal)
+        {
+            await UniTask.Delay((int) (signal.Duration * 1000));
+            currentLevel++;
+            if (currentLevel >= mazeSpawnerTheme.Length)
+            {
+                SignalBus.Invoke(new GameEndedSignal());
+                return;
+            }
+            CreateMaze();
+        }
+
+        private void OnDestroy()
+        {
+            SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinished);
+
         }
     }
 }

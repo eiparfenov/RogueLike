@@ -7,9 +7,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.g
+      value: 0.18396229
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414159832095789275, guid: b46362c5c948abb4285022867e2a9556, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23407511
+      objectReference: {fileID: 0}
     - target: {fileID: 3414159832708296933, guid: b46362c5c948abb4285022867e2a9556, type: 3}
       propertyPath: m_Name
-      value: RoomEnemies
+      value: RoomStart
       objectReference: {fileID: 0}
     - target: {fileID: 3414159832708296935, guid: b46362c5c948abb4285022867e2a9556, type: 3}
       propertyPath: m_RootOrder

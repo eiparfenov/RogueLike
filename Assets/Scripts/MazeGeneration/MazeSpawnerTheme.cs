@@ -1,4 +1,5 @@
 using System;
+using Items;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -16,12 +17,13 @@ namespace MazeGeneration
         [field: SerializeField][field: Foldout("Doors")]public GameObject[] DoorLeft { get; private set; }
         [field: SerializeField][field: Foldout("Doors")]public GameObject[] DoorUp { get; private set; }
         [field: SerializeField][field: Foldout("Doors")]public GameObject[] DoorDown { get; private set; }
+        [field: SerializeField] public ItemsSet ItemsSet { get; private set; }
     }
 
     [Serializable]
     public class MazeRoomContent
     {
-        public MazeRoom mazeRoom;
+        public MazeRoom[] mazeRoom;
         public int count;
         public SpawnPriority spawnPriority;
     }

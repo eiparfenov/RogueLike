@@ -1,4 +1,4 @@
-using System;
+using Interfaces;
 using UnityEngine;
 
 namespace Enemies
@@ -7,6 +7,7 @@ namespace Enemies
     {
         public Vector3 moveDirection;
         public float speed;
+        public int damage;
         private Rigidbody2D _rb;
 
         private void Awake()
@@ -23,13 +24,29 @@ namespace Enemies
         {
             if (other.CompareTag("Player"))
             {
-                Destroy(gameObject);
+                var direction = moveDirection;
+                speed = 0;
+                transform.parent = other.transform;
+                Invoke("DestoyArrow",1);
+                GetComponent<AudioSource>().Play();
+                var damageable = other.GetComponent<IDamageable>();
+                if (damageable != null)
+                {
+                    damageable.Damage(damage,direction);
+                }
             }
 
             if (other.CompareTag("Wall"))
             {
-                Destroy(gameObject);
+                speed = 0;
+                Invoke("DestoyArrow",1);
+                GetComponent<AudioSource>().Play();
             }
+        }
+
+        public void DestoyArrow()
+        {
+            Destroy(gameObject);
         }
     }
 }
