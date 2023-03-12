@@ -158,14 +158,14 @@ namespace Player
                 }
             }
         }
-        private void ChangeDirection()
+        private  void ChangeDirection()
         {
             float swipeDistance = Vector2.Distance(_startTouchPosition, _endTouchPosition);
 
             if (swipeDistance > 50f)
             {
                 Vector2 swipeDirection = _endTouchPosition - _startTouchPosition;
-
+                
                 if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
                 {
                     if (swipeDirection.x > 0)
@@ -196,12 +196,17 @@ namespace Player
                         NewDirection(new Vector2(0, -1));
                     }
                 }
+                if (playerStats.SpecialItems.RotHit)
+                {
+                    if (_readyToBlow) Special();
+                }
             }
             else if (_touchDuration < 0.5)// длительность тапа
             {
                 if (_readyToBlow)
                 {
                     Special();
+                    Invoke(nameof(Special),playerStats.AttackSpeed/2 );
                 }
             }
         }

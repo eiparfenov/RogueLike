@@ -38,6 +38,9 @@ namespace Player
             base.Special();
             var smash = Instantiate(Smash, transform.position,transform.rotation);
             smash.damage = playerStats.Damage;
+            //Debug.Log(playerStats.SpecialItems.BulletSizeMult+"radus");
+            smash.transform.localScale = Vector3.one*playerStats.SpecialItems.BulletSizeMult;
+            
             smash.transform.eulerAngles = new Vector3(0, 0, GetAngleFromDirection());
             smash.transform.parent = transform;
             smash.blowDuration = blowDuration;
