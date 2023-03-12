@@ -9,7 +9,7 @@ namespace Enemies
         [SerializeField] private float reloadTime = 4f;
         [SerializeField] private float arrowSpeed;
         [SerializeField] private Arrow arrowPref;
-
+        [SerializeField] private AudioClip arrowClip;
         private bool _reloaded = true;
         public void Update()
         {
@@ -29,6 +29,7 @@ namespace Enemies
                         )
                     )
                 );
+                audio.clip = arrowClip;
                 audio.Play();
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = mainDir.normalized;

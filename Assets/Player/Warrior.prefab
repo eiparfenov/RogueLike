@@ -234,7 +234,8 @@ MonoBehaviour:
     startSpeed: 1.2
     startDamage: 1
     startAttackSpeed: 0.8
-    startReclining: 0
+    startReclining: 1
+    startCoins: 0
   playerSound:
     steps:
     - {fileID: 8300000, guid: a2adc05625c159e4b86d1eda191cbb77, type: 3}

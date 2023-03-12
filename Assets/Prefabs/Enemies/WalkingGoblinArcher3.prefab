@@ -205,7 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStats:
     damage: 1
-    health: 2
+    health: 4
     speed: 0.6
     stunTime: 0.5
     recliningValue: 4
@@ -213,9 +213,10 @@ MonoBehaviour:
   enemyAudio:
   - {fileID: 8300000, guid: d6ddad7f71c60a146a5ecdf098541103, type: 3}
   - {fileID: 8300000, guid: 8b09a0a70230b0344a7b2381fa16c062, type: 3}
-  reloadTime: 5
-  arrowSpeed: 1
+  reloadTime: 3
+  arrowSpeed: 2
   arrowPref: {fileID: -6676897709033916150, guid: fbf2f884034963d4bb284fc8174ba42d, type: 3}
+  arrowClip: {fileID: 8300000, guid: 03b78110a6d764848bdb06fc7bcb8c63, type: 3}
 --- !u!82 &8157289566319602663
 AudioSource:
   m_ObjectHideFlags: 0
