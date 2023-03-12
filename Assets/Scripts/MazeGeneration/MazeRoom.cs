@@ -30,7 +30,8 @@ namespace MazeGeneration
 
         protected void SwapWall(Transform wallSpawnPosition, GameObject wallToReplace)
         {
-            DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
+            if(wallSpawnPosition.childCount != 0)
+                DestroyImmediate(wallSpawnPosition.GetChild(0).gameObject);
             Instantiate(wallToReplace, wallSpawnPosition);
         }
 
