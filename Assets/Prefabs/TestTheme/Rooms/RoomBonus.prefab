@@ -105,6 +105,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4590053819979206983}
+  - {fileID: 3874511876326374462}
   - {fileID: 727282209106936914}
   - {fileID: 3268141817942338293}
   m_Father: {fileID: 727282207571436655}
@@ -140,7 +142,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 727282208410369520}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &727282209106936915
 SpriteRenderer:

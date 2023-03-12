@@ -25,7 +25,10 @@ namespace Enemies
             if (other.CompareTag("Player"))
             {
                 var direction = moveDirection;
-                Destroy(gameObject);
+                speed = 0;
+                transform.parent = other.transform;
+                Invoke("DestoyArrow",1);
+                GetComponent<AudioSource>().Play();
                 var damageable = other.GetComponent<IDamageable>();
                 if (damageable != null)
                 {
@@ -35,8 +38,15 @@ namespace Enemies
 
             if (other.CompareTag("Wall"))
             {
-                Destroy(gameObject);
+                speed = 0;
+                Invoke("DestoyArrow",1);
+                GetComponent<AudioSource>().Play();
             }
+        }
+
+        public void DestoyArrow()
+        {
+            Destroy(gameObject);
         }
     }
 }

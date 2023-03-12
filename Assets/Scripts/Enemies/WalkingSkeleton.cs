@@ -29,6 +29,7 @@ namespace Enemies
                         )
                     )
                 );
+                audio.Play();
                 arrow.speed = arrowSpeed;
                 arrow.moveDirection = mainDir.normalized;
                 arrow.damage = enemyStats.Damage;

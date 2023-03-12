@@ -15,11 +15,13 @@ namespace Player
 
         public PlayerStats PlayerStats => playerStats;
 
+        [SerializeField] protected PlayerSound playerSound;
         private Rigidbody2D _rb;
         private Animator _anim;
-
+        [SerializeField]  private AudioSource[] audioSource;
         protected virtual async void Start()
         {
+            
             playerStats.RecalculateStats();
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
@@ -58,6 +60,34 @@ namespace Player
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
             NewDirection(-movingDirection );
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.tag == "Wall")
+            {
+                var vecDirection = _roomPosition - (Vector2) transform.position;
+                vecDirection = vecDirection.normalized;
+                if (Mathf.Abs(vecDirection.x / vecDirection.y) < 3.5 / 8)
+                {
+                    NewDirection(new Vector2(0, vecDirection.y > 0 ? 1 : -1));
+                }
+                else
+                {
+                    NewDirection(new Vector2( (vecDirection.x > 0 ? 1 : -1),0));
+                }
+                movable = false;
+            } 
+            
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.tag == "Wall")
+            {
+                
+                movable = true;
+            } 
         }
 
         private async void OnLevelFinished(LevelFinishSignal signal)
@@ -191,14 +221,22 @@ namespace Player
                 }
             }
         }
+
+        public void Step()
+        {
+            playerSound.PlayStep(_trapMoveK<0.9,audioSource[0]);
+        }
         
         
         protected float GetAngleFromDirection()
         {
             return Mathf.Atan2(movingDirection.y,movingDirection.x)*Mathf.Rad2Deg;
         }
+
+        private Vector2 _roomPosition;
         private async void SetPauseMovement(RoomSwitchSignal signal)
         {
+            _roomPosition=signal.RoomPosition;
             movable = false;
             await UniTask.Delay(500);
             if(!this)
@@ -211,6 +249,7 @@ namespace Player
         private bool _readyToBlow=true;
         protected virtual async void Special()
         {
+            playerSound.PlayBlow(audioSource[1]);
             //Debug.Log("Bam");
             _readyToBlow = false;
             _anim.SetTrigger("Atake");
@@ -226,6 +265,7 @@ namespace Player
             if(_isInvincible)
                 return;
             _anim.SetTrigger("Damage");
+            playerSound.PlayGetDamage(audioSource[0]);
             playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
@@ -259,12 +299,15 @@ namespace Player
         {
             if(_isInvincible)
                 return;
-            
+            var col = GetComponent<Collider2D>() ;
+            col.isTrigger = true;
             _isInvincible = true;
             _anim.SetBool("Invincible",_isInvincible);
             await UniTask.Delay((int) (1000 * playerStats.InvincibleTime));
             _isInvincible = false;
             _anim.SetBool("Invincible",_isInvincible);
+            col.isTrigger = false;
+            movable = true;
         }
 
         
@@ -284,6 +327,7 @@ namespace Player
 
         public void TakeItem(BaseItem item)
         {
+            playerSound.PlayCoin(audioSource[2]);
             playerStats.AddItem(item);
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
         }

@@ -9,6 +9,7 @@ namespace Enemies
     {
         protected override async void Awake()
         {
+            
             base.Awake();
             await UniTask.WaitUntil(() => Player);
             moveDirection = new[] {Vector3.up, Vector3.down, Vector3.right, Vector3.left}
@@ -32,8 +33,9 @@ namespace Enemies
             var newAxis = Vector3.Cross(moveDirection, Vector3.forward);
             var nextDirection = newAxis.normalized * Mathf.Sign(Vector3.Dot(DirectionToPlayer, newAxis));
             moveDirection = Vector2.zero;
+            audio.mute = true;
             await UniTask.Delay((int) (1000 * enemyStats.TurnRate));
-            
+            audio.mute = false;
             moveDirection = nextDirection;
         }
 

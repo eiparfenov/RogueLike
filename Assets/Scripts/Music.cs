@@ -13,7 +13,7 @@ public class Music : MonoBehaviour
 
     private void Start()
     {
-        main.volume = 1;
+        main.volume = 0.5f;
         fight.volume = 0;
         embient.volume = 0.3f;
         SignalBus.AddListener<FightSignal>(SetFight);
@@ -25,10 +25,14 @@ public class Music : MonoBehaviour
         if (signal.InProgress)
         {
             fight.volume = 0.5f;
+            main.volume = 0.2f;
+            embient.volume = 0.5f;
         }
         else
         {
-            fight.volume = 0;
+            main.volume = 0.5f;
+            fight.volume = 0; 
+            embient.volume = 0.3f;
         }
     }
 
