@@ -18,6 +18,7 @@ namespace Enemies
         protected Vector3 moveDirection;
         protected Rigidbody2D rb;
         protected AudioSource audio;
+        protected Animator anim;
         public Transform Player { get; set; }
         public bool Active { get; set; }
         private float _trapMovK = 1f;
@@ -54,6 +55,7 @@ namespace Enemies
         {
             audio = GetComponent<AudioSource>();
             rb = GetComponent<Rigidbody2D>();
+            anim = GetComponent<Animator>();
         }
 
         public async void Damage(float damage)
@@ -65,7 +67,7 @@ namespace Enemies
                 audio.clip = enemyAudio[num];
                 audio.Play();
             }
-            
+            anim.SetTrigger("Damage");
             Active = false;
             enemyStats.Health -= damage;
             Debug.Log($"{name} got {damage} for player, it's current health = {enemyStats.Health}");
@@ -77,6 +79,7 @@ namespace Enemies
                 return;
             }
             await UniTask.Delay((int)(1000 * enemyStats.StunTime));
+            
             if (!this)
                 return;
             Active = true;
