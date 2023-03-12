@@ -136,11 +136,11 @@ namespace Player
                 }
                 else if (bulletSizeItems.Length == 1)
                 {
-                    bulletSizeMult = bulletSizeItems[0].Chance;
+                    bulletSizeMult = bulletSizeItems[0].Multiplier;
                 }
                 else
                 {
-                    bulletSizeMult = specialItems.Where(x => x.Type == SpecialItem.SpecialItemType.MoreSize).Select(x => x.Chance).Aggregate((x, y) => x * y);
+                    bulletSizeMult = specialItems.Where(x => x.Type == SpecialItem.SpecialItemType.MoreSize).Select(x => x.Multiplier).Aggregate((x, y) => x * y);
                 }
                 //powerMult = specialItems.Where(x => x.Type == SpecialItem.SpecialItemType.PowerHit).Select(x => x.Chance).Aggregate((x, y) => x * y);
 

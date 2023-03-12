@@ -18,7 +18,7 @@ namespace Player
 
         [SerializeField] protected PlayerSound playerSound;
         private Rigidbody2D _rb;
-        private Animator _anim;
+        protected Animator anim;
         [SerializeField]  private AudioSource[] audioSource;
         protected virtual async void Start()
         {
@@ -30,7 +30,7 @@ namespace Player
             playerStats.Health = playerStats.MaxHealth;
             playerStats.Init();
             _rb = GetComponent<Rigidbody2D>();
-            _anim = GetComponent<Animator>();
+            anim = GetComponent<Animator>();
             movingDirection = new Vector2(0, 0);
         
             // Тут мне нужно сообщить индикатору здоровья начальное состояние игрока
@@ -158,14 +158,14 @@ namespace Player
                 }
             }
         }
-        private void ChangeDirection()
+        private  void ChangeDirection()
         {
             float swipeDistance = Vector2.Distance(_startTouchPosition, _endTouchPosition);
 
             if (swipeDistance > 50f)
             {
                 Vector2 swipeDirection = _endTouchPosition - _startTouchPosition;
-
+                
                 if (Mathf.Abs(swipeDirection.x) > Mathf.Abs(swipeDirection.y))
                 {
                     if (swipeDirection.x > 0)
@@ -196,12 +196,17 @@ namespace Player
                         NewDirection(new Vector2(0, -1));
                     }
                 }
+                if (playerStats.SpecialItems.RotHit)
+                {
+                    if (_readyToBlow) Special();
+                }
             }
             else if (_touchDuration < 0.5)// длительность тапа
             {
                 if (_readyToBlow)
                 {
                     Special();
+                    Invoke(nameof(Special),playerStats.AttackSpeed/2 );
                 }
             }
         }
@@ -255,7 +260,7 @@ namespace Player
             playerSound.PlayBlow(audioSource[1]);
             //Debug.Log("Bam");
             _readyToBlow = false;
-            _anim.SetTrigger("Atake");
+            anim.SetTrigger("Atake");
             await UniTask.Delay((int) (1000 * playerStats.AttackSpeed));
             _readyToBlow = true;
         }
@@ -267,7 +272,7 @@ namespace Player
         {
             if(_isInvincible)
                 return;
-            _anim.SetTrigger("Damage");
+            anim.SetTrigger("Damage");
             playerSound.PlayGetDamage(audioSource[0]);
             if(Random.value > playerStats.SpecialItems.LuckyChance)
                 playerStats.Health -= Mathf.RoundToInt(damage);
@@ -306,10 +311,10 @@ namespace Player
             var col = GetComponent<Collider2D>() ;
             col.isTrigger = true;
             _isInvincible = true;
-            _anim.SetBool("Invincible",_isInvincible);
+            anim.SetBool("Invincible",_isInvincible);
             await UniTask.Delay((int) (1000 * playerStats.InvincibleTime));
             _isInvincible = false;
-            _anim.SetBool("Invincible",_isInvincible);
+            anim.SetBool("Invincible",_isInvincible);
             col.isTrigger = false;
             movable = true;
         }

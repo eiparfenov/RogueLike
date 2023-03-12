@@ -24,13 +24,13 @@ public class Music : MonoBehaviour
     {
         if (signal.InProgress)
         {
-            fight.volume = 0.5f;
-            main.volume = 0.2f;
+            fight.volume = 0.8f;
+            main.volume = 0.3f;
             embient.volume = 0.5f;
         }
         else
         {
-            main.volume = 0.5f;
+            main.volume = 0.6f;
             fight.volume = 0; 
             embient.volume = 0.3f;
         }

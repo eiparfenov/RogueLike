@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   needlesPref: {fileID: 1183489756039725358, guid: 488e825b4b240dc4bbbdfee9d136d607, type: 3}
-  delay: 0.5
-  needlesUpTime: 0.1
+  delay: 0.6
+  needlesUpTime: 2
   <Damage>k__BackingField: 1
 --- !u!61 &2068034412464627476
 BoxCollider2D:
