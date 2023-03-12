@@ -15,7 +15,7 @@ namespace Items
 
         public BaseItem GetItem()
         {
-            var possibleItems = items.Where(x => x.Item == null || (!x.Item.wasDropped && x.Item.opened) || x.Item.FallowPlayer).ToArray();
+            var possibleItems = items.Where(x => x.Item == null || (!x.Item.WasDropped && x.Item.opened) || x.Item.FallowPlayer).ToArray();
 
             if (possibleItems.Length == 0) return null;
             var allChances = possibleItems.Select(x => x.Chance).Sum();
@@ -29,7 +29,7 @@ namespace Items
 
             if (possibleItems[i].Item != null)
             {
-                possibleItems[i].Item.wasDropped = true;
+                possibleItems[i].Item.WasDropped = true;
             }
             return possibleItems[i].Item;
         }

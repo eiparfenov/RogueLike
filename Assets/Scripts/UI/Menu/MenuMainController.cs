@@ -24,7 +24,7 @@ namespace UI.Menu
         {
             foreach (var item in allItems.items)
             {
-                item.wasDropped = false;
+                item.WasDropped = false;
             }
             startSettings.SelectedCharacter = characterSelection.SelectedCharacter;
             SceneManager.LoadScene("Gameplay");
