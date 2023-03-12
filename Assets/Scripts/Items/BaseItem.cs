@@ -14,7 +14,7 @@ namespace Items
         public String Description { get; private set; } 
         public abstract bool FallowPlayer { get; }
 
-        [NonSerialized] public bool wasDropped;
+        public virtual bool WasDropped { get; set; }
         public bool opened;
         public int priceInMenu;
         public int priceInShop;

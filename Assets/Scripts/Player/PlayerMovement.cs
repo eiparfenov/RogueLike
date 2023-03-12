@@ -6,6 +6,7 @@ using RoomBehaviour.Traps;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -25,6 +26,7 @@ namespace Player
             playerStats.RecalculateStats();
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
+            SignalBus.AddListener<EnemyDieSignal>(Vampirism);
             playerStats.Health = playerStats.MaxHealth;
             playerStats.Init();
             _rb = GetComponent<Rigidbody2D>();
@@ -106,6 +108,7 @@ namespace Player
         {
             SignalBus.RemoveListener<RoomSwitchSignal>(SetPauseMovement);
             SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinished);
+            SignalBus.RemoveListener<EnemyDieSignal>(Vampirism);
         }
 
         #region MovementProcessing
@@ -266,13 +269,15 @@ namespace Player
                 return;
             _anim.SetTrigger("Damage");
             playerSound.PlayGetDamage(audioSource[0]);
-            playerStats.Health -= Mathf.RoundToInt(damage);
+            if(Random.value < playerStats.SpecialItems.LuckyChance)
+                playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
             if (playerStats.Health <= 0)
             {
                 print("Player should die here.  ((");
-                SignalBus.Invoke(new PlayerDeadSignal());
+                SignalBus.Invoke(new PlayerDeadSignal(){Respawn = Respawn});
+                gameObject.SetActive(false);
             }
             ProcessInvincible();
         }
@@ -284,8 +289,13 @@ namespace Player
             Damage(damage);
             RecliningPlayer(directionReclining,damage);
         }
-        
-        
+
+        public void Respawn()
+        {
+            gameObject.SetActive(true);
+            playerStats.Health = playerStats.MaxHealth;
+        }
+
 
         // this method makes player invincible, waits invincible time and makes player damageable again
         // in future some other instructions can be added
@@ -304,7 +314,7 @@ namespace Player
             movable = true;
         }
 
-
+        
 
         public async void RecliningPlayer(Vector2 direction, float strength)
         {
@@ -323,6 +333,14 @@ namespace Player
         {
             playerSound.PlayCoin(audioSource[2]);
             playerStats.AddItem(item);
+            SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
+        }
+
+        private void Vampirism(EnemyDieSignal signal)
+        {
+            if (playerStats.Health == playerStats.MaxHealth) return;
+            if(Random.value > playerStats.SpecialItems.VampirismChance) return;
+            playerStats.Health++;
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
         }
 

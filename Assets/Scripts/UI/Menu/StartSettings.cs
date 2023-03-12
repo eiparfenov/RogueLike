@@ -1,3 +1,4 @@
+using Player;
 using UnityEngine;
 
 namespace UI.Menu
@@ -7,5 +8,6 @@ namespace UI.Menu
     {
         [field: SerializeField] public int SelectedCharacter { get; set; }
         [field: SerializeField] public int Coins { get; set; }
+        public PlayerMovement[] players;
     }
 }

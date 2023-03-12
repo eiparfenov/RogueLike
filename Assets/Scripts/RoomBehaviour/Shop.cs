@@ -25,13 +25,13 @@ namespace RoomBehaviour
 
             player.PlayerStats.Coins -= _item.priceInShop;
             player.TakeItem(_item);
-            _item.wasDropped = true;
+            _item.WasDropped = true;
             Destroy(gameObject);
         }
 
         public void OnRoomEnteredEarly(Transform player)
         {
-            if(_item && !_item.wasDropped) return;
+            if(_item && !_item.WasDropped) return;
             
             _item = itemsSet.GetItem();
 

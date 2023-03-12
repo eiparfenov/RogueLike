@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4436346449057814005}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,6 +57,7 @@ MonoBehaviour:
     startDamage: 0
     startAttackSpeed: 0
     startReclining: 0
+    startCoins: 0
   movable: 1
   moving: 1
 --- !u!50 &316970838153576628
