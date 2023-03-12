@@ -1,5 +1,6 @@
 using System;
 using Signals;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,15 +16,26 @@ namespace UI.Menu
         [SerializeField] private Button @continue;
         [SerializeField] private ItemsAvailable items;
         [SerializeField] private StartSettings settings;
+        [SerializeField] private TextMeshProUGUI loseMessage;
+        [SerializeField] private TextMeshProUGUI gemsPlus;
         private PlayerDeadSignal _signal;
+        private int _levelsPassed;
         private void OnPlayerDie(PlayerDeadSignal signal)
         {
             _signal = signal;
             menu.SetActive(true);
+            loseMessage.text = $"Поражение\nЭтаж {_levelsPassed + 1}";
+            gemsPlus.text = $"+{_levelsPassed}";
+        }
+
+        private void OnLevelFinished(LevelFinishSignal signal)
+        {
+            _levelsPassed++;
         }
 
         private void OnRestart()
         {
+            settings.Coins += _levelsPassed;
             foreach (var item in items.items)
             {
                 item.WasDropped = false;
@@ -34,6 +46,7 @@ namespace UI.Menu
 
         private void OnHome()
         { 
+            settings.Coins += _levelsPassed;
             if(_signal != null) _signal.Respawn = null;
             SceneManager.LoadScene("StartScene");
         }
@@ -52,6 +65,7 @@ namespace UI.Menu
             home.onClick.AddListener(OnHome);
             @continue.onClick.AddListener(OnContinue);
             SignalBus.AddListener<PlayerDeadSignal>(OnPlayerDie);
+            SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
         }
         
         private void OnDestroy()
@@ -60,6 +74,7 @@ namespace UI.Menu
             restart.onClick.RemoveListener(OnRestart);
             home.onClick.RemoveListener(OnHome);
             @continue.onClick.RemoveListener(OnContinue);
+            SignalBus.RemoveListener<LevelFinishSignal>(OnLevelFinished);
             SignalBus.RemoveListener<PlayerDeadSignal>(OnPlayerDie);
         }
     }
