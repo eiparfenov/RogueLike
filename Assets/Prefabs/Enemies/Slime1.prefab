@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -990595048, guid: 1c058a920bd577c4dbe12ad7583c0b32, type: 3}
-  m_Color: {r: 1, g: 0.18396229, b: 0.9242179, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 3840049445109695652}
   - component: {fileID: 7707390353448918662}
   m_Layer: 0
-  m_Name: Slime
+  m_Name: Slime1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
     stunTime: 0.5
     recliningValue: 5
     turnRate: 1
+  enemyAudio: []
 --- !u!95 &3840049445109695652
 Animator:
   serializedVersion: 4

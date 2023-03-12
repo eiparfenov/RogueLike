@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6719015337110858858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 2.5, y: 2.5, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6335135539852401658}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: e0d8556f5acb22e4886b62f16a731baf, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.14576916, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 8735146845744703346}
   - component: {fileID: 8957655216880221840}
   m_Layer: 0
-  m_Name: Bat
+  m_Name: Bat3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -134,10 +134,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStats:
     damage: 1
-    health: 1
-    speed: 0.5
+    health: 2
+    speed: 0.6
     stunTime: 0.5
-    recliningValue: 5
+    recliningValue: 4
     turnRate: 0
   enemyAudio: []
   randomDirection: 1
@@ -177,7 +177,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
 --- !u!95 &8957655216880221840
 Animator:
   serializedVersion: 4
