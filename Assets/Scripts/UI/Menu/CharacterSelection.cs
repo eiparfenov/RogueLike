@@ -11,11 +11,11 @@ namespace UI.Menu
         [SerializeField] private float movementMult;
         [SerializeField] private float offset;
         [SerializeField] private float returnSpeed;
-        [SerializeField] private TextMeshProUGUI stats;
+        
         
         private Transform _charactersLine;
         private bool _isDragging;
-        private int _selectedCharacter = -1;
+        private int _selectedCharacter = 0;
 
         public int SelectedCharacter
         {
@@ -24,7 +24,6 @@ namespace UI.Menu
             {
                 if(_selectedCharacter == value) return;
                 _selectedCharacter = value;
-                stats.text = settings.players[SelectedCharacter].PlayerStats.ToString();
             }
         }
 

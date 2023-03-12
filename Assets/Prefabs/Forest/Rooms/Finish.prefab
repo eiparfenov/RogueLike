@@ -165,7 +165,7 @@ MonoBehaviour:
   wallRight: {fileID: 8446698479849638566}
   wallUp: {fileID: 8446698480529521482}
   wallDown: {fileID: 8446698478510019121}
-  exitWallRight: {fileID: 1833502349837820899, guid: f947956557ced2a4088aa569d80daa75, type: 3}
-  exitWallLeft: {fileID: 869059697685122847, guid: 3762e0a648fe9bd40b2017c5cdebbda7, type: 3}
-  exitWallUp: {fileID: 1743206169727583338, guid: fa84df65610c97543ac214df6526285c, type: 3}
-  exitWallDown: {fileID: 3978478656085883951, guid: 6a0262e93e4ce35498e3185967812586, type: 3}
+  exitWallRight: {fileID: 6925151165701888997, guid: da834beefdfd74742957b9ca481f2a2a, type: 3}
+  exitWallLeft: {fileID: 7864073462991312979, guid: e8d9570395fbfcf4ba1783941b4d65e3, type: 3}
+  exitWallUp: {fileID: 4228103810215656994, guid: fcc58fa59f77c464a8974997162256df, type: 3}
+  exitWallDown: {fileID: 5461917106910016329, guid: dc3b59c4928cd9740bec52e55be67d37, type: 3}

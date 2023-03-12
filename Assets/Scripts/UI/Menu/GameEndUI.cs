@@ -1,5 +1,6 @@
 using System;
 using Signals;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,10 +15,12 @@ namespace UI.Menu
         [SerializeField] private Button restart;
         [SerializeField] private ItemsAvailable items;
         [SerializeField] private StartSettings settings;
+        [SerializeField] private TextMeshProUGUI gems;
         private void OnPlayerDie(GameEndedSignal signal)
         {
             menu.SetActive(true);
-            settings.Coins += 1;
+            settings.Coins += signal.LevelsCount;
+            gems.text = $"+{signal.LevelsCount}";
         }
 
         private void OnRestart()

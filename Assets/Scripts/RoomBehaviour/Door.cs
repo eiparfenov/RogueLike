@@ -4,7 +4,7 @@ namespace RoomBehaviour
 {
     public class Door: MonoBehaviour
     {
-        [SerializeField] private GameObject doorFrame;
+        [SerializeField] protected GameObject doorFrame;
 
         public virtual async void Close()
         {
