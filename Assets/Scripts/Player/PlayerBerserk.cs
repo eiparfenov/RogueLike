@@ -26,8 +26,7 @@ namespace Player
         protected override void Update()
         {
             base.Update();
-            axe.transform.Rotate(Vector3.forward, rotationSpeed * playerStats.AttackSpeed * Time.deltaTime);
-            
+            axe.transform.Rotate(Vector3.forward, rotationSpeed / playerStats.AttackSpeed * Time.deltaTime);
         }
 
         protected override void NewDirection(Vector2 direction)

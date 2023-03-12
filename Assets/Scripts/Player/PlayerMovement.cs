@@ -206,7 +206,8 @@ namespace Player
                 if (_readyToBlow)
                 {
                     Special();
-                    Invoke(nameof(Special),playerStats.AttackSpeed/2 );
+                    if(playerStats.SpecialItems.DoubleHit)
+                        Invoke(nameof(Special),playerStats.AttackSpeed/2 );
                 }
             }
         }

@@ -19,8 +19,8 @@ namespace UI.Menu
         private void OnPlayerDie(GameEndedSignal signal)
         {
             menu.SetActive(true);
-            settings.Coins += signal.LevelsCount;
-            gems.text = $"+{signal.LevelsCount}";
+            settings.Coins += signal.LevelsCount + 2;
+            gems.text = $"+{signal.LevelsCount + 2}";
         }
 
         private void OnRestart()
