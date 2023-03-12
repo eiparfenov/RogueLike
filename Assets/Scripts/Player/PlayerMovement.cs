@@ -53,7 +53,7 @@ namespace Player
         }
         protected virtual void OnCollisionEnter2D(Collision2D collision)
         {
-            movingDirection = -movingDirection;
+            NewDirection(-movingDirection );
         }
 
         private async void OnLevelFinished(LevelFinishSignal signal)
@@ -134,12 +134,16 @@ namespace Player
                     if (swipeDirection.x > 0)
                     {
                         // Swiped right
-                        movingDirection = new Vector2(1, 0);
+                        
+                        
+                        NewDirection(new Vector2(1, 0));
                     }
                     else
                     {
                         // Swiped left
-                        movingDirection = new Vector2(-1, 0);
+                        
+                        
+                        NewDirection(new Vector2(-1, 0));
                     }
                 }
                 else
@@ -147,12 +151,12 @@ namespace Player
                     if (swipeDirection.y > 0)
                     {
                         // Swiped up
-                        movingDirection = new Vector2(0, 1);
+                        NewDirection(new Vector2(0, 1));
                     }
                     else
                     {
                         // Swiped down
-                        movingDirection = new Vector2(0, -1);
+                        NewDirection(new Vector2(0, -1));
                     }
                 }
             }
@@ -164,6 +168,27 @@ namespace Player
                 }
             }
         }
+
+
+        protected virtual void NewDirection(Vector2 direction)
+        {
+            movingDirection = direction;
+            if (direction.y== 0)
+            {
+                if (direction.x < 0)
+                {
+                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y,
+                        transform.localScale.z);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y,
+                        transform.localScale.z);
+                }
+            }
+        }
+        
+        
         protected float GetAngleFromDirection()
         {
             return Mathf.Atan2(movingDirection.y,movingDirection.x)*Mathf.Rad2Deg;
@@ -184,6 +209,7 @@ namespace Player
         {
             //Debug.Log("Bam");
             _readyToBlow = false;
+            _anim.SetTrigger("Atake");
             await UniTask.Delay((int) (1000 * playerStats.AttackSpeed));
             _readyToBlow = true;
         }
@@ -195,6 +221,7 @@ namespace Player
         {
             if(_isInvincible)
                 return;
+            _anim.SetTrigger("Damage");
             playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
