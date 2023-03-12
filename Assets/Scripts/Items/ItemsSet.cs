@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,8 +15,9 @@ namespace Items
 
         public BaseItem GetItem()
         {
-            var possibleItems = items.Where(x => x.Item == null || !x.Item.wasDropped || x.Item.FallowPlayer).ToArray();
+            var possibleItems = items.Where(x => x.Item == null || (!x.Item.wasDropped && x.Item.opened) || x.Item.FallowPlayer).ToArray();
 
+            if (possibleItems.Length == 0) return null;
             var allChances = possibleItems.Select(x => x.Chance).Sum();
             var chance = Random.value * allChances;
             var i = 0;
