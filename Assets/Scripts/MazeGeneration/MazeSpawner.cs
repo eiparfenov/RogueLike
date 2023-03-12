@@ -139,6 +139,7 @@ namespace MazeGeneration
             currentLevel++;
             if (currentLevel >= mazeSpawnerTheme.Length)
             {
+                SignalBus.Invoke(new GameEndedSignal());
                 return;
             }
             CreateMaze();

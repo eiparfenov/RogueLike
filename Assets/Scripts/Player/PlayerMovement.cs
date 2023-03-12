@@ -269,7 +269,7 @@ namespace Player
                 return;
             _anim.SetTrigger("Damage");
             playerSound.PlayGetDamage(audioSource[0]);
-            if(Random.value < playerStats.SpecialItems.LuckyChance)
+            if(Random.value > playerStats.SpecialItems.LuckyChance)
                 playerStats.Health -= Mathf.RoundToInt(damage);
             print($"Player got {damage} of damage");
             SignalBus.Invoke(new PlayerHealthChangedSignal(){MaxHealth = playerStats.MaxHealth, Health = playerStats.Health});
