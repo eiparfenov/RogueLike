@@ -232,7 +232,8 @@ namespace Player
             if (playerStats.Health <= 0)
             {
                 print("Player should die here.  ((");
-                SignalBus.Invoke(new PlayerDeadSignal());
+                SignalBus.Invoke(new PlayerDeadSignal(){Respawn = Respawn});
+                gameObject.SetActive(false);
             }
             ProcessInvincible();
         }
@@ -244,8 +245,13 @@ namespace Player
             Damage(damage);
             RecliningPlayer(directionReclining,damage);
         }
-        
-        
+
+        public void Respawn()
+        {
+            gameObject.SetActive(true);
+            playerStats.Health = playerStats.MaxHealth;
+        }
+
 
         // this method makes player invincible, waits invincible time and makes player damageable again
         // in future some other instructions can be added
@@ -261,7 +267,7 @@ namespace Player
             _anim.SetBool("Invincible",_isInvincible);
         }
 
-
+        
 
         public async void RecliningPlayer(Vector2 direction, float strength)
         {
