@@ -230,7 +230,7 @@ MonoBehaviour:
   wallRight: {fileID: 8446698479849638566}
   wallUp: {fileID: 8446698480529521482}
   wallDown: {fileID: 8446698478510019121}
-  exitWallRight: {fileID: 1833502349837820899, guid: f947956557ced2a4088aa569d80daa75, type: 3}
-  exitWallLeft: {fileID: 869059697685122847, guid: 3762e0a648fe9bd40b2017c5cdebbda7, type: 3}
-  exitWallUp: {fileID: 1743206169727583338, guid: fa84df65610c97543ac214df6526285c, type: 3}
-  exitWallDown: {fileID: 3978478656085883951, guid: 6a0262e93e4ce35498e3185967812586, type: 3}
+  exitWallRight: {fileID: 6925151165701888997, guid: f63c64de54f6b7c4195faeea541f0b46, type: 3}
+  exitWallLeft: {fileID: 7864073462991312979, guid: cc879f92e29aa2e439beec372e70adf1, type: 3}
+  exitWallUp: {fileID: 4228103810215656994, guid: e7c0bd18977f07845a0a22b289fa07b3, type: 3}
+  exitWallDown: {fileID: 5461917106910016329, guid: a707fd9f30f88fa45b89b05152ed99bd, type: 3}
