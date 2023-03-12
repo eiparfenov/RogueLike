@@ -14,7 +14,7 @@ namespace Items
 
         public BaseItem GetItem()
         {
-            var possibleItems = items.Where(x => x.Item == null || !x.Item.wasDropped || x.Item.FallowPlayer).ToArray();
+            var possibleItems = items.Where(x => x.Item == null || (!x.Item.wasDropped && x.Item.opened) || x.Item.FallowPlayer).ToArray();
 
             var allChances = possibleItems.Select(x => x.Chance).Sum();
             var chance = Random.value * allChances;

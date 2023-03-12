@@ -12,6 +12,7 @@ namespace UI.Menu
         [SerializeField] private Button items;
         [SerializeField] private ItemMenu itemMenu;
         [SerializeField] private StartSettings startSettings;
+        [SerializeField] private ItemsAvailable allItems;
 
         private void Start()
         {
@@ -21,6 +22,10 @@ namespace UI.Menu
 
         private void RunBattle()
         {
+            foreach (var item in allItems.items)
+            {
+                item.wasDropped = false;
+            }
             startSettings.SelectedCharacter = characterSelection.SelectedCharacter;
             SceneManager.LoadScene("Gameplay");
         }

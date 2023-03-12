@@ -1787,6 +1787,7 @@ MonoBehaviour:
   mazeParent: {fileID: 1750062598}
   roomSize: {x: 4, y: 7, z: 0}
   mazeSpawnerTheme:
+  - {fileID: 11400000, guid: d25eba30d13b5684f98e7169ce5b1d49, type: 2}
   - {fileID: 11400000, guid: 11568ffebc87c524494c8c028a390f60, type: 2}
   - {fileID: 11400000, guid: e3470c84de25bd24ba0f839785f40d93, type: 2}
   currentLevel: 0
