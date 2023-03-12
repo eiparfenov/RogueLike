@@ -5,6 +5,7 @@ using Items;
 using Signals;
 using UnityEngine;
 using Utils.Signals;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -59,6 +60,7 @@ namespace Player
             else if (simpleItem is CoinItem coinItem)
             {
                 Coins += coinItem.Cash;
+                Coins += Random.value < SpecialItems.GreedChance ? 1 : 0;
             }
             else
             {
