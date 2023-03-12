@@ -29,7 +29,7 @@ namespace UI.Menu
             {
                 item.WasDropped = false;
             }
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadSceneAsync("Gameplay");
         }
 
         private void OnHome()

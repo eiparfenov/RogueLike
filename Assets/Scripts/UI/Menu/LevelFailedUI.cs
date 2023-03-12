@@ -41,7 +41,7 @@ namespace UI.Menu
                 item.WasDropped = false;
             }
             if(_signal != null) _signal.Respawn = null;
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadSceneAsync("Gameplay");
         }
 
         private void OnHome()

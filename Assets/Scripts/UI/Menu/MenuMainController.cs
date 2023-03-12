@@ -27,7 +27,7 @@ namespace UI.Menu
                 item.WasDropped = false;
             }
             startSettings.SelectedCharacter = characterSelection.SelectedCharacter;
-            SceneManager.LoadScene("Gameplay");
+            SceneManager.LoadSceneAsync("Gameplay");
         }
 
         private void OpenItems()
