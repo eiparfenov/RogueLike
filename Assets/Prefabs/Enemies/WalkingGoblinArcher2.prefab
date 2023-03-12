@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 4a2c47e198f91244dbaab12ed2ff0f6a, type: 3}
-  m_Color: {r: 1, g: 0.5449662, b: 0.19339621, a: 1}
+  m_Color: {r: 0.9433962, g: 0.11499196, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 8157289566319602663}
   - component: {fileID: 3356717680930093969}
   m_Layer: 0
-  m_Name: WalkingGoblinArcher
+  m_Name: WalkingGoblinArcher2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,16 +205,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStats:
     damage: 1
-    health: 1
-    speed: 0.3
+    health: 3
+    speed: 0.4
     stunTime: 0.5
     recliningValue: 2
     turnRate: 0
   enemyAudio:
   - {fileID: 8300000, guid: d6ddad7f71c60a146a5ecdf098541103, type: 3}
   - {fileID: 8300000, guid: 8b09a0a70230b0344a7b2381fa16c062, type: 3}
-  reloadTime: 5
-  arrowSpeed: 1
+  reloadTime: 3
+  arrowSpeed: 2
   arrowPref: {fileID: -6676897709033916150, guid: fbf2f884034963d4bb284fc8174ba42d, type: 3}
 --- !u!82 &8157289566319602663
 AudioSource:
@@ -406,7 +406,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: 5bdcda13348c50b449781186b4cb24f8, type: 3}
-  m_Color: {r: 1, g: 0.5449662, b: 0.19339621, a: 1}
+  m_Color: {r: 0.9433962, g: 0.11499196, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

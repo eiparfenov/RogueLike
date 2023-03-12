@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 4153833749730232827}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.07, y: 2.07, z: 2.07}
+  m_LocalScale: {x: 3, y: 3, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8906372778386262262}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: -990595048, guid: 1c058a920bd577c4dbe12ad7583c0b32, type: 3}
-  m_Color: {r: 1, g: 0.18396229, b: 0.9242179, a: 1}
+  m_Color: {r: 0.92666334, g: 1, b: 0.051886797, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 3840049445109695652}
   - component: {fileID: 7707390353448918662}
   m_Layer: 0
-  m_Name: Slime
+  m_Name: Slime2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -189,7 +189,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.8
 --- !u!114 &496888211796116460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,11 +204,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyStats:
     damage: 1
-    health: 1
+    health: 3
     speed: 0.6
     stunTime: 0.5
     recliningValue: 5
     turnRate: 1
+  enemyAudio: []
 --- !u!95 &3840049445109695652
 Animator:
   serializedVersion: 4
