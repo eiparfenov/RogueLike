@@ -17,6 +17,7 @@ namespace Items
         [NonSerialized] public bool wasDropped;
         public bool opened;
         public int priceInMenu;
+        public int priceInShop;
         public int stars;
         #region ChangeStats
         [field: SerializeField] public bool ChangesBaseStats { get; private set; }

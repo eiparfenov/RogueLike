@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
+using Signals;
 using UnityEngine;
+using Utils.Signals;
 
 namespace Player
 {
@@ -16,6 +18,7 @@ namespace Player
         [SerializeField] private int startDamage;
         [SerializeField] private float startAttackSpeed;
         [SerializeField] private float startReclining;
+        [SerializeField] private int startCoins;
         public Special SpecialItems { get; private set; } = new();
         
         private int maxHealth;
@@ -25,7 +28,7 @@ namespace Player
         private float damage;
         private float attackSpeed;
         private float reclining;
-        
+        private int coins;
         
         private List<BaseItem> _items = new List<BaseItem>();
         public int Health { get => health; set => health = value; }
@@ -36,12 +39,26 @@ namespace Player
         public float AttackSpeed => attackSpeed;
         public float Reclining => reclining;
 
+        public int Coins
+        {
+            get => coins;
+            set
+            {
+                coins = value;
+                SignalBus.Invoke(new PlayerCoinsChangedSignal(){CurrentCoins = coins});
+            }
+        }
+
         public void AddItem(BaseItem simpleItem)
         {
             if (simpleItem is HeartItem heartItem)
             {
                 health += heartItem.Heal;
                 health = Mathf.Clamp(health, 0, maxHealth);
+            }
+            else if (simpleItem is CoinItem coinItem)
+            {
+                Coins += coinItem.Cash;
             }
             else
             {
@@ -50,6 +67,10 @@ namespace Player
             }
         }
 
+        public void Init()
+        {
+            Coins = startCoins;
+        }
         public void RecalculateStats()
         {
             damage = startDamage;
@@ -58,6 +79,7 @@ namespace Player
             speed = startSpeed;
             attackSpeed = startAttackSpeed;
             reclining = startReclining;
+
 
             foreach (var item in _items)
             {

@@ -12,6 +12,9 @@ namespace Player
     public class PlayerMovement : MonoBehaviour, IDamageable, IPitTrapInteracting, ISlowTrapInteracting
     {
         [SerializeField] protected PlayerStats playerStats;
+
+        public PlayerStats PlayerStats => playerStats;
+
         private Rigidbody2D _rb;
         private Animator _anim;
 
@@ -21,6 +24,7 @@ namespace Player
             SignalBus.AddListener<RoomSwitchSignal>(SetPauseMovement);
             SignalBus.AddListener<LevelFinishSignal>(OnLevelFinished);
             playerStats.Health = playerStats.MaxHealth;
+            playerStats.Init();
             _rb = GetComponent<Rigidbody2D>();
             _anim = GetComponent<Animator>();
             movingDirection = new Vector2(0, 0);
